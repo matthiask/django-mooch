@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-13 12:19+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:24
+msgid "Reward"
+msgstr "Belohnung"
+
+#: forms.py:30
+msgid "Participating is enough, thank you"
+msgstr "Dabei sein genügt, besten Dank"
+
+#: forms.py:43
+#, python-format
+msgid "The selected reward requires a minimal donation of %(amount)s."
+msgstr "Die gewählte Belohnung ist erst ab %(amount)s verfügbar."
+
+#: forms.py:50
+msgid "This reward is not available anymore. Sorry!"
+msgstr "Diese Belohnung ist leider nicht mehr verfügbar. Tut uns leid!"
+
+#: forms.py:65
+msgid "Remember my name"
+msgstr "Meinen Namen merken"
+
+#: models.py:18 models.py:119
+msgid "created at"
+msgstr "erstellt um"
+
+#: models.py:22
+msgid "is active"
+msgstr "ist aktiv"
+
+#: models.py:26 models.py:79
+msgid "title"
+msgstr "Titel"
+
+#: models.py:30
+msgid "funding goal"
+msgstr "Finanzierungsziel"
+
+#: models.py:35
+msgid "default amount"
+msgstr "Standard-Spende"
+
+#: models.py:46 models.py:75 models.py:116
+msgid "project"
+msgstr "Projekt"
+
+#: models.py:47
+msgid "projects"
+msgstr "Projekte"
+
+#: models.py:83
+msgid "available"
+msgstr "verfügbar"
+
+#: models.py:86
+msgid "Leave empty if availability is unlimited."
+msgstr "Leer lassen falls Verfügbarkeit nicht limitiert werden soll."
+
+#: models.py:89
+msgid "donation amount"
+msgstr "Spendenbetrag"
+
+#: models.py:92
+msgid "The donation has to be at least this amount."
+msgstr "Die Spende muss mindestens so hoch sein."
+
+#: models.py:97
+msgid "reward"
+msgstr "Belohnung"
+
+#: models.py:98
+msgid "rewards"
+msgstr "Belohnungen"
+
+#: models.py:101
+#, python-format
+msgid "%(title)s (from %(amount)s)"
+msgstr "%(title)s (ab %(amount)s)"
+
+#: models.py:123
+msgid "charged at"
+msgstr "belastet um"
+
+#: models.py:128
+msgid "amount"
+msgstr "Betrag"
+
+#: models.py:135
+msgid "selected reward"
+msgstr "gewählte Belohnung"
+
+#: models.py:142
+msgid "full name"
+msgstr "Voller Name"
+
+#: models.py:146
+msgid "email"
+msgstr "Email"
+
+#: models.py:150
+msgid "postal address"
+msgstr "Postadresse"
+
+#: models.py:155
+msgid "transaction"
+msgstr "Transaktion"
+
+#: models.py:161
+msgid "donation"
+msgstr "Spende"
+
+#: models.py:162
+msgid "donations"
+msgstr "Spenden"

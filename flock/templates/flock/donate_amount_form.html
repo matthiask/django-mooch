@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load towel_form_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="large-12 columns">
+
+    <h1>{{ project }}</h1>
+
+    <div class="progress round">
+      <span class="meter" style="width:{{ project.funding_percentage }}%">
+      </span>
+    </div>
+
+    <p>
+      {{ project.funding_percentage }}% ({{ project.donation_total }})
+      von {{ project.funding_goal }} gesammelt.
+    </p>
+
+    <form method="post" action=".">
+      {% csrf_token %}
+      {% form_errors form %}
+      {% form_items form %}
+      <button type="submit">Absenden</button>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

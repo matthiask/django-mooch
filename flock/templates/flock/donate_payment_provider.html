@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+  <div class="large-12 columns">
+
+    <h1>Danke schon jetzt für Ihren Beitrag von {{ donation.amount }}!</h1>
+
+
+    <form method="post" action="https://e-payment.postfinance.ch/ncol/{{ postfinance.mode }}/orderstandard.asp" id="postfinanceform">
+      <input type="hidden" name="PSPID" value="{{ postfinance.PSPID }}">
+      <input type="hidden" name="orderID" value="{{ postfinance.donationID }}">
+      <input type="hidden" name="amount" value="{{ postfinance.amount }}">
+      <input type="hidden" name="currency" value="{{ postfinance.currency }}">
+      <input type="hidden" name="language" value="{{ locale }}">
+      <input type="hidden" name="SHASign" value="{{ postfinance.SHASign }}">
+      <input type="hidden" name="CN" value="{{ donation.full_name }}">
+      <input type="hidden" name="EMAIL" value="{{ donation.email }}">
+
+      <!--
+      <input type="hidden" name="owneraddress" value="{{ donation.billing_address }}">
+      <input type="hidden" name="ownerZIP" value="{{ donation.billing_zip_code }}">
+      <input type="hidden" name="ownertown" value="{{ donation.billing_city }}">
+      <input type="hidden" name="ownercty" value="{{ donation.billing_country }}">
+      -->
+
+      <input type="hidden" name="accepturl" value="{{ thanks_url }}">
+      <input type="hidden" name="declineurl" value="{{ fail_url }}">
+      <input type="hidden" name="exceptionurl" value="{{ fail_url }}">
+      <input type="hidden" name="cancelurl" value="{{ fail_url }}">
+
+      <!-- Disable credit cards and stuff, we do not have an acquirer contract -->
+      <input type="hidden" name="PMLIST" value="PostFinance Card;PostFinance e-finance">
+
+      <button type="submit">Bezahlen via Postfinance (Postcard, Postfinance E-Finance)</button>
+    </form>
+
+    <button type="button" id="stripeButton">Bezahlen via Stripe (VISA, Mastercard)</button>
+
+    <form method="post" action="{% url 'flock_banktransfer' %}">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ donation.id.hex }}">
+      <button type="submit">Bezahlen via Banküberweisung</button>
+    </form>
+
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+<script>
+  var handler = StripeCheckout.configure({
+    key: '{{ STRIPE_PUBLISHABLE_KEY }}',
+    // image: '/img/documentation/checkout/marketplace.png',
+    currency: 'CHF',
+    name: 'Erbschaftssteuer',
+    description: 'Spende',
+    token: function(token) {
+      $.post(
+        '{% url "flock_donate_stripe" %}',
+        {
+          id: '{{ donation.id.hex }}',
+          token: token.id
+        },
+        function(data) {
+          window.location.href = '{% url "flock_thanks" %}';
+        }
+      );
+    }
+  });
+
+  $('#stripeButton').on('click', function(e) {
+    // Open Checkout with further options
+    handler.open({
+      amount: {{ donation.amount_cents }}
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation
+  $(window).on('popstate', function() {
+    handler.close();
+  });
+</script>
+
+
+
+{% endblock %}
