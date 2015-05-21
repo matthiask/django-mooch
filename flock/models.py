@@ -59,6 +59,7 @@ class Project(models.Model):
     def funding_percentage(self):
         return 100 * self.donation_total / self.funding_goal
 
+    @cached_property
     def available_rewards(self):
         return [
             reward

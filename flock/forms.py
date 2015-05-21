@@ -17,8 +17,7 @@ class DonationAmountForm(forms.ModelForm):
 
         super().__init__(*args, **kwargs)
 
-        available_rewards = self.project.available_rewards()
-        if available_rewards:
+        if self.project.available_rewards:
             self.fields['reward'] = forms.ModelChoiceField(
                 queryset=self.project.rewards.all(),
                 label=_('Reward'),
@@ -30,7 +29,7 @@ class DonationAmountForm(forms.ModelForm):
                 ('', _('Participating is enough, thank you')),
             ] + [
                 (r.id, str(r))
-                for r in available_rewards
+                for r in self.project.available_rewards
             ]
 
     def clean(self):
