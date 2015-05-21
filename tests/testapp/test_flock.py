@@ -115,6 +115,11 @@ class FlockTest(TestCase):
             1,
         )
 
+        self.assertEqual(
+            len(mail.outbox),
+            0,
+        )
+
         response = self.client.post('/banktransfer/', {
             'id': d.id.hex,
         })
