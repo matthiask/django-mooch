@@ -44,7 +44,7 @@ class DonationAmountForm(forms.ModelForm):
                 ) % {'amount': reward.donation_amount})
 
             if reward.available_times is not None:
-                if reward.donations.count() >= reward.available_times:
+                if reward not in self.project.available_rewards:
                     raise forms.ValidationError(_(
                         'This reward is not available anymore. Sorry!'
                     ))

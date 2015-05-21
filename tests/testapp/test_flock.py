@@ -70,6 +70,7 @@ class FlockTest(TestCase):
     def test_donation_views(self):
         p = Project.objects.create(
             funding_goal=2000,
+            default_amount=50,
         )
 
         self.assertContains(
@@ -120,9 +121,14 @@ class FlockTest(TestCase):
             0,
         )
 
+        self.assertIsNone(d.charged_at)
+
         response = self.client.post('/banktransfer/', {
             'id': d.id.hex,
         })
+
+        d.refresh_from_db()
+        self.assertIsNotNone(d.charged_at)
 
         self.assertRedirects(
             response,
@@ -131,5 +137,81 @@ class FlockTest(TestCase):
 
         self.assertEqual(
             len(mail.outbox),
+            1,
+        )
+
+    def test_rewards(self):
+        p = Project.objects.create(
+            funding_goal=2000,
+        )
+
+        r1 = p.rewards.create(
+            title='Dein Name erscheint',
+            available_times=10,
+            donation_amount=100,
+        )
+        r2 = p.rewards.create(
+            title='Abendessen',
+            available_times=1,
+            donation_amount=1000,
+        )
+
+        self.assertListEqual(
+            p.available_rewards,
+            [r1, r2],
+        )
+
+        response = self.client.get('/')
+        self.assertContains(
+            response,
+            'type="radio"',
+            3,
+        )
+
+        response = self.client.post('/', {
+            'amount': '50',
+            'reward': '',
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.post('/', {
+            'amount': '50',
+            'reward': r1.id,
+        })
+
+        self.assertContains(
+            response,
+            'The selected reward requires a minimal donation of 100.00.',
+            1,
+        )
+
+        p.donation_set.create(
+            amount=1500,
+            selected_reward=r2,
+            charged_at=None,
+        )
+
+        response = self.client.post('/', {
+            'amount': '1500',
+            'reward': r2.id,
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+        p.donation_set.create(
+            amount=1500,
+            selected_reward=r2,
+            charged_at=timezone.now(),
+        )
+
+        response = self.client.post('/', {
+            'amount': '1500',
+            'reward': r2.id,
+        })
+
+        self.assertContains(
+            response,
+            'This reward is not available anymore. Sorry!',
             1,
         )

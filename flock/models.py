@@ -61,10 +61,18 @@ class Project(models.Model):
 
     @cached_property
     def available_rewards(self):
+        donation_count = Donation.objects.order_by().filter(
+            project=self,
+            charged_at__isnull=False,
+        ).values('selected_reward').annotate(Count('id'))
+        donation_count = {
+            r['selected_reward']: r['id__count']
+            for r in donation_count
+        }
+
         return [
-            reward
-            for reward in self.rewards.annotate(Count('donations'))
-            if reward.donations__count < reward.available_times or
+            reward for reward in self.rewards.all()
+            if donation_count.get(reward.id, 0) < reward.available_times or
             reward.available_times is None
         ]
 
