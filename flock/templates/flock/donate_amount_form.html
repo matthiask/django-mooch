@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load towel_form_tags %}
-
 {% block content %}
 <div class="row">
   <div class="large-12 columns">
@@ -20,8 +18,7 @@
 
     <form method="post" action=".">
       {% csrf_token %}
-      {% form_errors form %}
-      {% form_items form %}
+      {{ form.as_p }}
       <button type="submit">Absenden</button>
     </form>
 

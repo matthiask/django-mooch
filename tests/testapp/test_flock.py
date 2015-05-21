@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.core import mail
 from django.test import TestCase
 from django.utils import timezone
 
@@ -65,3 +66,65 @@ class FlockTest(TestCase):
 
         self.assertEqual(d.amount, Decimal('5.55'))
         self.assertEqual(d.amount_cents, 555)
+
+    def test_donation_views(self):
+        p = Project.objects.create(
+            funding_goal=2000,
+        )
+
+        self.assertContains(
+            self.client.get('/'),
+            '<form',
+            1,
+        )
+
+        response = self.client.post('/', {
+            'amount': '50.00',
+        })
+
+        d = Donation.objects.get()
+        url = 'http://testserver/details/%s/' % d.id.hex
+
+        self.assertRedirects(
+            response,
+            url,
+        )
+
+        response = self.client.post(url, {
+            'full_name': 'Hans Muster',
+            'email': 'hans@example.com',
+            'remember_my_name': '',
+        })
+
+        url = 'http://testserver/psp/%s/' % d.id.hex
+        self.assertRedirects(
+            response,
+            url,
+        )
+
+        response = self.client.get(url)
+
+        self.assertContains(
+            response,
+            '<input type="hidden" name="SHASign"',
+            1,
+        )
+        self.assertContains(
+            response,
+            'StripeCheckout.configure(',
+            1,
+        )
+
+        response = self.client.post('/banktransfer/', {
+            'id': d.id.hex,
+        })
+
+        self.assertRedirects(
+            response,
+            'http://testserver/thanks/',
+        )
+
+        self.assertEqual(
+            len(mail.outbox),
+            1,
+        )

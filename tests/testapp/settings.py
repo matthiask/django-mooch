@@ -46,3 +46,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
+
+STRIPE_PUBLISHABLE_KEY = 'nothing'
+STRIPE_SECRET_KEY = 'nothing'
+POSTFINANCE_PSPID = 'nothing'
+POSTFINANCE_LIVE = False
+POSTFINANCE_SHA1_IN = 'nothing'
+POSTFINANCE_SHA1_OUT = 'nothing'
