@@ -68,7 +68,7 @@ class FlockTest(TestCase):
         self.assertEqual(d.amount_cents, 555)
 
     def test_donation_views(self):
-        p = Project.objects.create(
+        Project.objects.create(
             funding_goal=2000,
             default_amount=50,
         )
@@ -241,7 +241,7 @@ class FlockTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_remember_my_name(self):
-        p = Project.objects.create(
+        Project.objects.create(
             funding_goal=2000,
         )
 
