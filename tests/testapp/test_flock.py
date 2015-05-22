@@ -155,17 +155,22 @@ class FlockTest(TestCase):
             available_times=1,
             donation_amount=1000,
         )
+        r3 = p.rewards.create(
+            title='Danke-Mail',
+            available_times=None,
+            donation_amount=1,
+        )
 
         self.assertListEqual(
             p.available_rewards,
-            [r1, r2],
+            [r3, r1, r2],
         )
 
         response = self.client.get('/')
         self.assertContains(
             response,
             'type="radio"',
-            3,
+            3 + 1,  # + no reward
         )
 
         response = self.client.post('/', {
@@ -214,4 +219,78 @@ class FlockTest(TestCase):
             response,
             'This reward is not available anymore. Sorry!',
             1,
+        )
+
+        response = self.client.post('/', {
+            'amount': '10',
+            'reward': r3.id,
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_remember_my_name(self):
+        p = Project.objects.create(
+            funding_goal=2000,
+        )
+
+        response = self.client.post('/', {
+            'amount': '10',
+        })
+
+        d = Donation.objects.get()
+        url = 'http://testserver/details/%s/' % d.id.hex
+
+        self.assertRedirects(
+            response,
+            url,
+        )
+
+        response = self.client.post(url, {
+            'full_name': 'Hans Muster',
+            'email': 'hans@example.com',
+            'remember_my_name': '1',
+        })
+
+        c = str(response.cookies)
+        self.assertIn(
+            'Set-Cookie: flock=',
+            c,
+        )
+        self.assertIn(
+            r'\"full_name\": \"Hans Muster\"',
+            c,
+        )
+
+        self.assertIn(
+            r'\"email\": \"hans@example.com\"',
+            c,
+        )
+
+        self.assertIn(
+            '; Path=/',
+            c,
+        )
+
+        response = self.client.get(url)
+        self.assertContains(
+            response,
+            'value="Hans Muster"',
+            1,
+        )
+        self.assertContains(
+            response,
+            'value="hans@example.com"',
+            1,
+        )
+
+        response = self.client.post(url, {
+            'full_name': 'Hans Muster',
+            'email': 'hans@example.com',
+            'remember_my_name': '',
+        })
+
+        c = str(response.cookies)
+        self.assertIn(
+            'Set-Cookie: flock=;',
+            c,
         )
