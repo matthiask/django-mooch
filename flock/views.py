@@ -91,6 +91,13 @@ def donate_details(request, id):
 def donate_payment_provider(request, id):
     donation = get_object_or_404(Donation, id=id)
 
+    if donation.charged_at is not None:
+        messages.info(
+            request,
+            _('This donation has already been processed. Thank you!'),
+        )
+        return redirect('flock_donate_amount')
+
     postfinance = {
         # Add a random suffix, because Postfinance does not like
         # processing the same order ID over and over.

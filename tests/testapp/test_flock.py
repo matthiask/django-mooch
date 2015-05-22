@@ -140,6 +140,18 @@ class FlockTest(TestCase):
             1,
         )
 
+        response = self.client.get(url, follow=True)
+
+        self.assertRedirects(
+            response,
+            'http://testserver/',
+        )
+
+        self.assertListEqual(
+            _messages(response),
+            ['This donation has already been processed. Thank you!'],
+        )
+
     def test_rewards(self):
         p = Project.objects.create(
             funding_goal=2000,
