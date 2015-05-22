@@ -1,4 +1,5 @@
 from decimal import Decimal
+from hashlib import sha1
 
 from django.core import mail
 from django.test import TestCase
@@ -306,3 +307,56 @@ class FlockTest(TestCase):
             'Set-Cookie: flock=;',
             c,
         )
+
+    def test_postfinance_postsale(self):
+        Project.objects.create(
+            funding_goal=2000,
+        )
+
+        self.client.post('/', {
+            'amount': '100',
+        })
+        donation = Donation.objects.get()
+        self.client.post('/details/%s/' % donation.id.hex, {
+            'full_name': 'Hans Muster',
+            'email': 'hans@example.com',
+        })
+
+        ipn_data = {
+            'orderID': '%s-random' % donation.id.hex,
+            'currency': 'CHF',
+            'amount': '100.00',
+            'PM': 'Postfinance',
+            'ACCEPTANCE': 'xxx',
+            'STATUS': '5', # Authorized
+            'CARDNO': 'xxxxxxxxxxxx1111',
+            'PAYID': '123456789',
+            'NCERROR': '',
+            'BRAND': 'VISA',
+            'SHASIGN': 'this-value-is-invalid',
+        }
+
+        sha1_source = ''.join((
+            ipn_data['orderID'],
+            'CHF',
+            '100.00',
+            ipn_data['PM'],
+            ipn_data['ACCEPTANCE'],
+            ipn_data['STATUS'],
+            ipn_data['CARDNO'],
+            ipn_data['PAYID'],
+            ipn_data['NCERROR'],
+            ipn_data['BRAND'],
+            'nothing',
+        ))
+
+        ipn_data['SHASIGN'] = sha1(sha1_source.encode('utf-8')).hexdigest()
+        response = self.client.post('/postfinance/', ipn_data)
+
+        self.assertEqual(
+            response.status_code,
+            200,
+        )
+
+        donation.refresh_from_db()
+        self.assertIsNotNone(donation.charged_at)
