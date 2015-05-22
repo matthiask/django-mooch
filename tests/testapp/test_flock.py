@@ -328,7 +328,7 @@ class FlockTest(TestCase):
             'amount': '100.00',
             'PM': 'Postfinance',
             'ACCEPTANCE': 'xxx',
-            'STATUS': '5', # Authorized
+            'STATUS': '5',  # Authorized
             'CARDNO': 'xxxxxxxxxxxx1111',
             'PAYID': '123456789',
             'NCERROR': '',
