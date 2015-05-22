@@ -72,8 +72,8 @@ class Project(models.Model):
 
         return [
             reward for reward in self.rewards.all()
-            if donation_count.get(reward.id, 0) < reward.available_times or
-            reward.available_times is None
+            if reward.available_times is None or
+            donation_count.get(reward.id, 0) < reward.available_times
         ]
 
 
