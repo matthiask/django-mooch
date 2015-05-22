@@ -144,7 +144,7 @@ def donate_stripe(request):
     )
 
     donation.charged_at = timezone.now()
-    donation.transaction = response.content.decode('utf-8')
+    donation.transaction = response.text
     donation.save()
 
     render_to_mail('flock/thanks_mail', {
