@@ -2,10 +2,6 @@
 flock - Simple crowdfunding
 ===========================
 
-.. image:: https://travis-ci.org/matthiask/django-email-registration.png?branch=master
-   :target: https://travis-ci.org/matthiask/django-email-registration
-
-
 Usage
 =====
 
