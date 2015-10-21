@@ -33,6 +33,7 @@ setup(
     },
     install_requires=[
         'Django>=1.7',
+        'requests>2',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
