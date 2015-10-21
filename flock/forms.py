@@ -15,7 +15,7 @@ class DonationAmountForm(forms.ModelForm):
             kwargs.setdefault('initial', {}).setdefault(
                 'amount', self.project.default_amount)
 
-        super().__init__(*args, **kwargs)
+        super(DonationAmountForm, self).__init__(*args, **kwargs)
 
         if self.project.available_rewards:
             self.fields['reward'] = forms.ModelChoiceField(
@@ -33,7 +33,7 @@ class DonationAmountForm(forms.ModelForm):
             ]
 
     def clean(self):
-        data = super().clean()
+        data = super(DonationAmountForm, self).clean()
         amount = data.get('amount')
         reward = data.get('reward')
         if amount and reward:
@@ -52,7 +52,7 @@ class DonationAmountForm(forms.ModelForm):
         return data
 
     def save(self):
-        donation = super().save(commit=False)
+        donation = super(DonationAmountForm, self).save(commit=False)
         donation.project = self.project
         donation.selected_reward = self.cleaned_data.get('reward')
         donation.save()

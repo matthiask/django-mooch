@@ -1,9 +1,12 @@
+from __future__ import unicode_literals
+
 from decimal import Decimal
 import uuid
 
 from django.db import models
 from django.db.models import Count, Sum
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _, ugettext
 
@@ -13,6 +16,7 @@ class ProjectManager(models.Manager):
         return self.filter(is_active=True).order_by('created_at').first()
 
 
+@python_2_unicode_compatible
 class Project(models.Model):
     created_at = models.DateTimeField(
         _('created at'),
@@ -77,6 +81,7 @@ class Project(models.Model):
         ]
 
 
+@python_2_unicode_compatible
 class Reward(models.Model):
     project = models.ForeignKey(
         Project,
@@ -113,6 +118,7 @@ class Reward(models.Model):
         }
 
 
+@python_2_unicode_compatible
 class Donation(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -173,3 +179,6 @@ class Donation(models.Model):
     @property
     def amount_cents(self):
         return int(self.amount * 100)
+
+    def __str__(self):
+        return '%s for %s' % (self.amount, self.project)
