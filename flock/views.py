@@ -147,7 +147,7 @@ def donate_stripe(request):
         headers={
             'Idempotency-Key': donation.id.hex,
         },
-        timeout=1,
+        timeout=5,
     )
 
     donation.charged_at = timezone.now()
