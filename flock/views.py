@@ -133,7 +133,11 @@ def donate_payment_provider(request, id):
 @require_POST
 def donate_stripe(request):
     donation = get_object_or_404(Donation, id=request.POST.get('id'))
-    donation.transaction = repr(request.POST)
+    donation.transaction = repr({
+        key: values
+        for key, values in request.POST.iterlists()
+        if key != 'token'
+    })
     donation.save()
 
     response = requests.post(
