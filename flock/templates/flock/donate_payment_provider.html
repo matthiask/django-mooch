@@ -8,6 +8,7 @@
     <h1>Danke schon jetzt für Ihren Beitrag von {{ donation.amount }}!</h1>
 
 
+    {% if postfinance %}
     <form method="post" action="https://e-payment.postfinance.ch/ncol/{{ postfinance.mode }}/orderstandard.asp" id="postfinanceform">
       <input type="hidden" name="PSPID" value="{{ postfinance.PSPID }}">
       <input type="hidden" name="orderID" value="{{ postfinance.donationID }}">
@@ -35,8 +36,11 @@
 
       <button type="submit">Bezahlen via Postfinance (Postcard, Postfinance E-Finance)</button>
     </form>
+    {% endif %}
 
+    {% if STRIPE_PUBLISHABLE_KEY %}
     <button type="button" id="stripeButton">Bezahlen via Stripe (VISA, Mastercard)</button>
+    {% endif %}
 
     <form method="post" action="{% url 'flock_banktransfer' %}">
       {% csrf_token %}

@@ -98,25 +98,28 @@ def donate_payment_provider(request, id):
         )
         return redirect('flock_donate_amount')
 
-    postfinance = {
-        # Add a random suffix, because Postfinance does not like
-        # processing the same order ID over and over.
-        'donationID': '%s-%s' % (donation.id.hex, get_random_string(4)),
-        'amount': str(donation.amount_cents),
-        'currency': 'CHF',
-        'PSPID': settings.POSTFINANCE_PSPID,
-        'mode': 'prod' if settings.POSTFINANCE_LIVE else 'test',
-        'locale': locale.normalize(
-            to_locale(get_language())).split('.')[0],
-    }
+    if settings.POSTFINANCE_PSPID:
+        postfinance = {
+            # Add a random suffix, because Postfinance does not like
+            # processing the same order ID over and over.
+            'donationID': '%s-%s' % (donation.id.hex, get_random_string(4)),
+            'amount': str(donation.amount_cents),
+            'currency': 'CHF',
+            'PSPID': settings.POSTFINANCE_PSPID,
+            'mode': 'prod' if settings.POSTFINANCE_LIVE else 'test',
+            'locale': locale.normalize(
+                to_locale(get_language())).split('.')[0],
+        }
 
-    postfinance['SHASign'] = sha1((''.join((
-        postfinance['donationID'],
-        postfinance['amount'],
-        postfinance['currency'],
-        postfinance['PSPID'],
-        settings.POSTFINANCE_SHA1_IN,
-    ))).encode('utf-8')).hexdigest()
+        postfinance['SHASign'] = sha1((''.join((
+            postfinance['donationID'],
+            postfinance['amount'],
+            postfinance['currency'],
+            postfinance['PSPID'],
+            settings.POSTFINANCE_SHA1_IN,
+        ))).encode('utf-8')).hexdigest()
+    else:
+        postfinance = None
 
     return render(request, 'flock/donate_payment_provider.html', {
         'donation': donation,
