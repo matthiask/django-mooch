@@ -27,6 +27,9 @@ logger = logging.getLogger('flock')
 def donate_amount(request):
     project = Project.objects.current()
 
+    if not project:
+        return render(request, 'flock/no_project.html')
+
     if request.method == 'POST':
         form = DonationAmountForm(request.POST, project=project)
         if form.is_valid():

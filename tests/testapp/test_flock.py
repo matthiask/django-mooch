@@ -69,6 +69,11 @@ class FlockTest(TestCase):
         self.assertEqual(d.amount_cents, 555)
 
     def test_donation_views(self):
+        self.assertContains(
+            self.client.get('/'),
+            'No active project found',
+        )
+
         Project.objects.create(
             funding_goal=2000,
             default_amount=50,
