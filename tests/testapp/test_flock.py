@@ -35,10 +35,10 @@ class FlockTest(TestCase):
         d.charged_at = timezone.now()
         d.save()
 
-        # @cached_property
         self.assertEqual(
             p.donation_total,
             0,
+            'donation_total should be cached on instances and not change',
         )
 
         p = Project.objects.get()
