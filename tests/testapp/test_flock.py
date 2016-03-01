@@ -4,6 +4,7 @@ from hashlib import sha1
 from django.core import mail
 from django.test import TestCase
 from django.utils import timezone
+from django.utils.six import assertRegex
 
 
 from flock.models import Project, Donation
@@ -308,9 +309,10 @@ class FlockTest(TestCase):
         })
 
         c = str(response.cookies)
-        self.assertIn(
-            'Set-Cookie: flock=;',
+        assertRegex(
+            self,
             c,
+            r'Set-Cookie: flock="{0,2};',
         )
 
     def test_postfinance_postsale(self):
