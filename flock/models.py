@@ -34,6 +34,8 @@ class Project(models.Model):
         _('funding goal'),
         max_digits=10,
         decimal_places=2,
+        blank=True,
+        null=True,
     )
     default_amount = models.DecimalField(
         _('default amount'),
@@ -61,6 +63,8 @@ class Project(models.Model):
 
     @cached_property
     def funding_percentage(self):
+        if not self.funding_goal:
+            return '-'
         return 100 * self.donation_total / self.funding_goal
 
     @cached_property

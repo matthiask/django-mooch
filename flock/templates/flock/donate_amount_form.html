@@ -6,17 +6,19 @@
 
     <h1>{{ project }}</h1>
 
-    <div class="progress round">
-      <span class="meter" style="width:{{ project.funding_percentage }}%">
-      </span>
-    </div>
+    {% if project.funding_goal %}
+      <div class="progress round">
+        <span class="meter" style="width:{{ project.funding_percentage }}%">
+        </span>
+      </div>
 
-    <p>
-      {{ project.funding_percentage }}% ({{ project.donation_total }})
-      von {{ project.funding_goal }} gesammelt.
-    </p>
+      <p>
+        {{ project.funding_percentage }}% ({{ project.donation_total }})
+        von {{ project.funding_goal }} gesammelt.
+      </p>
+    {% endif %}
 
-    <form method="post" action=".">
+    <form method="post" action="."">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">Absenden</button>
