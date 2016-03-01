@@ -43,10 +43,11 @@ def donate_amount(request):
     else:
         form = DonationAmountForm(project=project)
 
-    return render(request, 'flock/donate_amount_form.html', {
-        'project': project,
-        'form': form,
-    })
+    return render(
+        request,
+        ['flock/donate_amount_form.html', 'flock/form.html'],
+        {'project': project, 'form': form},
+    )
 
 
 def donate_details(request, id):
@@ -85,10 +86,11 @@ def donate_details(request, id):
     else:
         form = DonationDetailsForm(**kw)
 
-    return render(request, 'flock/donate_amount_form.html', {  # XXX fix tpl.
-        'project': donation.project,
-        'form': form,
-    })
+    return render(
+        request,
+        ['flock/donate_details_form.html', 'flock/form.html'],
+        {'project': donation.project, 'form': form},
+    )
 
 
 def donate_payment_provider(request, id):
