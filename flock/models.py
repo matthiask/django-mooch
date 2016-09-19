@@ -78,10 +78,14 @@ class Project(models.Model):
             for r in donation_count
         }
 
+        rewards = self.rewards.all()
+        for reward in rewards:
+            reward.used_times = donation_count.get(reward.id, 0)
+
         return [
-            reward for reward in self.rewards.all()
+            reward for reward in rewards
             if reward.available_times is None or
-            donation_count.get(reward.id, 0) < reward.available_times
+            reward.used_times < reward.available_times
         ]
 
 
