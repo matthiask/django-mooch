@@ -143,7 +143,7 @@ def donate_stripe(request):
     donation = get_object_or_404(Donation, id=request.POST.get('id'))
     donation.transaction = repr({
         key: values
-        for key, values in request.POST.iterlists()
+        for key, values in request.POST.lists()
         if key != 'token'
     })
     donation.save()
