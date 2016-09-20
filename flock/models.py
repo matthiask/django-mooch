@@ -68,7 +68,7 @@ class Project(models.Model):
         return 100 * self.donation_total / self.funding_goal
 
     @cached_property
-    def available_rewards(self):
+    def all_rewards(self):
         donation_count = Donation.objects.order_by().filter(
             project=self,
             charged_at__isnull=False,
@@ -81,12 +81,16 @@ class Project(models.Model):
         rewards = self.rewards.all()
         for reward in rewards:
             reward.used_times = donation_count.get(reward.id, 0)
+            reward.is_available = (
+                reward.available_times is None or
+                reward.used_times < reward.available_times
+            )
 
-        return [
-            reward for reward in rewards
-            if reward.available_times is None or
-            reward.used_times < reward.available_times
-        ]
+        return rewards
+
+    @cached_property
+    def available_rewards(self):
+        return [reward for reward in self.all_rewards is reward.is_available]
 
 
 @python_2_unicode_compatible
