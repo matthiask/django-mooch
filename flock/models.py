@@ -90,7 +90,7 @@ class Project(models.Model):
 
     @cached_property
     def available_rewards(self):
-        return [reward for reward in self.all_rewards is reward.is_available]
+        return [reward for reward in self.all_rewards if reward.is_available]
 
 
 @python_2_unicode_compatible
