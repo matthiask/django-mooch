@@ -11,9 +11,22 @@ class DonationAmountForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.project = kwargs.pop('project')
-        if self.project.default_amount:
-            kwargs.setdefault('initial', {}).setdefault(
-                'amount', self.project.default_amount)
+        request = kwargs.pop('request')
+
+        available_rewards = self.project.available_rewards
+        initial = kwargs.setdefault('initial', {})
+
+        try:
+            selected_reward = [
+                reward for reward in available_rewards
+                if str(reward.pk) == request.GET.get('selected')
+            ][0]
+        except IndexError:
+            if self.project.default_amount:
+                initial.setdefault('amount', self.project.default_amount)
+        else:
+            initial.setdefault('reward', selected_reward.pk)
+            initial.setdefault('amount', selected_reward.donation_amount)
 
         super(DonationAmountForm, self).__init__(*args, **kwargs)
 

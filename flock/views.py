@@ -30,8 +30,10 @@ def donate_amount(request):
     if not project:
         return render(request, 'flock/no_project.html')
 
+    kw = {'project': project, 'request': request}
+
     if request.method == 'POST':
-        form = DonationAmountForm(request.POST, project=project)
+        form = DonationAmountForm(request.POST, **kw)
         if form.is_valid():
             donation = form.save()
 
@@ -41,7 +43,7 @@ def donate_amount(request):
             )
 
     else:
-        form = DonationAmountForm(project=project)
+        form = DonationAmountForm(**kw)
 
     return render(
         request,
