@@ -133,6 +133,19 @@ class Reward(models.Model):
             'amount': self.donation_amount,
         }
 
+    def __getattr__(self, key):
+        if key == 'used_times':
+            self.used_times = Donation.objects.filter(
+                selected_reward=self,
+                charged_at__isnull=False,
+            ).count()
+            return self.used_times
+        elif key == 'is_available':
+            return (
+                self.available_times is None or
+                self.used_times < self.available_times)
+        raise AttributeError('Invalid attribute %r' % key)
+
 
 @python_2_unicode_compatible
 class Donation(models.Model):
