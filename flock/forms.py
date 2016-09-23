@@ -5,6 +5,9 @@ from flock.models import Donation
 
 
 class DonationAmountForm(forms.ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+
     class Meta:
         model = Donation
         fields = ('amount',)
@@ -80,6 +83,9 @@ class DonationAmountForm(forms.ModelForm):
 
 
 class DonationDetailsForm(forms.ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+
     remember_my_name = forms.BooleanField(
         label=ugettext_lazy('Remember my name'),
         required=False,
