@@ -44,6 +44,10 @@ class Project(models.Model):
         blank=True,
         null=True,
     )
+    is_reward_required = models.BooleanField(
+        _('is reward required?'),
+        default=False,
+    )
 
     objects = ProjectManager()
 

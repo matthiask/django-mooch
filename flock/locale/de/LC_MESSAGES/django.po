@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-13 12:19+0200\n"
+"POT-Creation-Date: 2016-09-23 11:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,116 +18,164 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:24
+#: forms.py:38
 msgid "Reward"
 msgstr "Belohnung"
 
-#: forms.py:30
+#: forms.py:47
 msgid "Participating is enough, thank you"
 msgstr "Dabei sein genügt, besten Dank"
 
-#: forms.py:43
+#: forms.py:62
 #, python-format
 msgid "The selected reward requires a minimal donation of %(amount)s."
 msgstr "Die gewählte Belohnung ist erst ab %(amount)s verfügbar."
 
-#: forms.py:50
+#: forms.py:69
 msgid "This reward is not available anymore. Sorry!"
 msgstr "Diese Belohnung ist leider nicht mehr verfügbar. Tut uns leid!"
 
-#: forms.py:65
+#: forms.py:84
 msgid "Remember my name"
 msgstr "Meinen Namen merken"
 
-#: models.py:18 models.py:119
+#: models.py:22 models.py:150
 msgid "created at"
 msgstr "erstellt um"
 
-#: models.py:22
+#: models.py:26
 msgid "is active"
 msgstr "ist aktiv"
 
-#: models.py:26 models.py:79
+#: models.py:30 models.py:109
 msgid "title"
 msgstr "Titel"
 
-#: models.py:30
+#: models.py:34
 msgid "funding goal"
 msgstr "Finanzierungsziel"
 
-#: models.py:35
+#: models.py:41
 msgid "default amount"
 msgstr "Standard-Spende"
 
-#: models.py:46 models.py:75 models.py:116
+#: models.py:48
+msgid "is reward required?"
+msgstr "wird Belohnung benötigt?"
+
+#: models.py:56 models.py:105 models.py:147
 msgid "project"
 msgstr "Projekt"
 
-#: models.py:47
+#: models.py:57
 msgid "projects"
 msgstr "Projekte"
 
-#: models.py:83
+#: models.py:113
 msgid "available"
 msgstr "verfügbar"
 
-#: models.py:86
+#: models.py:116
 msgid "Leave empty if availability is unlimited."
 msgstr "Leer lassen falls Verfügbarkeit nicht limitiert werden soll."
 
-#: models.py:89
+#: models.py:119
 msgid "donation amount"
 msgstr "Spendenbetrag"
 
-#: models.py:92
+#: models.py:122
 msgid "The donation has to be at least this amount."
 msgstr "Die Spende muss mindestens so hoch sein."
 
-#: models.py:97
+#: models.py:127
 msgid "reward"
 msgstr "Belohnung"
 
-#: models.py:98
+#: models.py:128
 msgid "rewards"
 msgstr "Belohnungen"
 
-#: models.py:101
+#: models.py:131
 #, python-format
 msgid "%(title)s (from %(amount)s)"
 msgstr "%(title)s (ab %(amount)s)"
 
-#: models.py:123
+#: models.py:154
 msgid "charged at"
 msgstr "belastet um"
 
-#: models.py:128
+#: models.py:159
 msgid "amount"
 msgstr "Betrag"
 
-#: models.py:135
+#: models.py:164
+msgid "payment service provider"
+msgstr "Zahlungsdienstleister"
+
+#: models.py:171
 msgid "selected reward"
 msgstr "gewählte Belohnung"
 
-#: models.py:142
+#: models.py:178
 msgid "full name"
 msgstr "Voller Name"
 
-#: models.py:146
+#: models.py:182
 msgid "email"
 msgstr "Email"
 
-#: models.py:150
+#: models.py:186
 msgid "postal address"
 msgstr "Postadresse"
 
-#: models.py:155
+#: models.py:191
 msgid "transaction"
 msgstr "Transaktion"
 
-#: models.py:161
+#: models.py:197
 msgid "donation"
 msgstr "Spende"
 
-#: models.py:162
+#: models.py:198
 msgid "donations"
 msgstr "Spenden"
+
+#: templates/flock/no_project.html:8
+msgid "No active project found"
+msgstr "Kein aktives Projekt gefunden"
+
+#: templates/flock/thanks_mail.txt:2
+msgid "Thank you for your donation!"
+msgstr "Vielen Dank für die Spende!"
+
+#: templates/flock/thanks_mail.txt:4
+#, python-format
+msgid "Dear %(full_name)s,"
+msgstr "Liebe/r %(full_name)s,"
+
+#: templates/flock/thanks_mail.txt:8
+#, python-format
+msgid "Thank you for your donation of %(amount)s to «%(project)s»."
+msgstr "Vielen Dank für die Spende von %(amount)s für «%(project)s»."
+
+#: templates/flock/thanks_mail.txt:12
+#, python-format
+msgid "Your reward is %(reward)s."
+msgstr "Die Belohnung ist %(reward)s."
+
+#: templates/flock/thanks_mail.txt:16
+#| msgid "rewards"
+msgid "Warm regards"
+msgstr "Freundliche Grüsse"
+
+#: views.py:104
+msgid "This donation has already been processed. Thank you!"
+msgstr "Diese Spende wurde schon verarbeitet. Vielen Dank!"
+
+#: views.py:262
+msgid ""
+"You will receive an email within a few minutes containing details about your "
+"donation. Thank you!"
+msgstr ""
+"Sie erhalten in den nächsten Minuten ein Mail mit Details zur Spende. "
+"Vielen Dank!"

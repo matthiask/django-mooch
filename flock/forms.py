@@ -38,14 +38,19 @@ class DonationAmountForm(forms.ModelForm):
                 label=_('Reward'),
                 widget=forms.RadioSelect,
                 initial='',
-                required=False,
+                required=self.project.is_reward_required,
             )
-            self.fields['reward'].choices = [
-                ('', _('Participating is enough, thank you')),
-            ] + [
+
+            choices = []
+            if not self.project.is_reward_required:
+                choices.append(
+                    ('', _('Participating is enough, thank you')),
+                )
+            choices.extend(
                 (r.id, str(r))
                 for r in self.project.available_rewards
-            ]
+            )
+            self.fields['reward'].choices = choices
 
     def clean(self):
         data = super(DonationAmountForm, self).clean()
