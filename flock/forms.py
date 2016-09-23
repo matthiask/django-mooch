@@ -13,6 +13,8 @@ class DonationAmountForm(forms.ModelForm):
         self.project = kwargs.pop('project')
         request = kwargs.pop('request')
 
+        kwargs.setdefault('label_suffix', '')
+
         available_rewards = self.project.available_rewards
         initial = kwargs.setdefault('initial', {})
 
@@ -82,3 +84,7 @@ class DonationDetailsForm(forms.ModelForm):
     class Meta:
         model = Donation
         fields = ('full_name', 'email', 'postal_address')
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(DonationDetailsForm, self).__init__(*args, **kwargs)
