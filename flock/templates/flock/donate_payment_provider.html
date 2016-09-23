@@ -61,7 +61,7 @@
     key: '{{ STRIPE_PUBLISHABLE_KEY }}',
     // image: '/img/documentation/checkout/marketplace.png',
     currency: 'CHF',
-    name: 'Erbschaftssteuer',
+    name: document.title,
     description: 'Spende',
     token: function(token) {
       jQuery.post(
