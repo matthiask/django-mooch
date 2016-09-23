@@ -15,7 +15,10 @@ admin.site.register(
 )
 admin.site.register(
     Donation,
+    date_hierarchy='created_at',
     list_display=(
         'created_at', 'charged_at', 'amount', 'payment_service_provider',
         'full_name', 'email'),
+    list_filter=('project', 'payment_service_provider', 'charged_at'),
+    search_fields=('full_name', 'email', 'transaction'),
 )
