@@ -20,7 +20,9 @@
 
     <form method="post" action="."">
       {% csrf_token %}
-      {{ form.as_p }}
+      <ul>
+        {{ form.as_ul }}
+      </ul>
       <button type="submit">Absenden</button>
     </form>
 
