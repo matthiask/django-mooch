@@ -24,7 +24,7 @@ from flock.models import Project, Donation
 logger = logging.getLogger('flock')
 
 
-def donate_amount(request):
+def donate_amount(request, form_class=DonationAmountForm):
     project = Project.objects.current()
 
     if not project:
@@ -33,7 +33,7 @@ def donate_amount(request):
     kw = {'project': project, 'request': request}
 
     if request.method == 'POST':
-        form = DonationAmountForm(request.POST, **kw)
+        form = form_class(request.POST, **kw)
         if form.is_valid():
             donation = form.save()
 
@@ -43,7 +43,7 @@ def donate_amount(request):
             )
 
     else:
-        form = DonationAmountForm(**kw)
+        form = form_class(**kw)
 
     return render(
         request,
@@ -52,7 +52,7 @@ def donate_amount(request):
     )
 
 
-def donate_details(request, id):
+def donate_details(request, id, form_class=DonationDetailsForm):
     donation = get_object_or_404(Donation, id=id)
     kw = {'instance': donation}
 
@@ -62,7 +62,7 @@ def donate_details(request, id):
         pass
 
     if request.method == 'POST':
-        form = DonationDetailsForm(request.POST, **kw)
+        form = form_class(request.POST, **kw)
 
         if form.is_valid():
             donation = form.save()
@@ -86,7 +86,7 @@ def donate_details(request, id):
             return response
 
     else:
-        form = DonationDetailsForm(**kw)
+        form = form_class(**kw)
 
     return render(
         request,
