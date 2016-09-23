@@ -15,5 +15,7 @@ admin.site.register(
 )
 admin.site.register(
     Donation,
-    list_display=('created_at', 'charged_at', 'amount', 'full_name', 'email'),
+    list_display=(
+        'created_at', 'charged_at', 'amount', 'payment_service_provider',
+        'full_name', 'email'),
 )

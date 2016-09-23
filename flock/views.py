@@ -143,6 +143,7 @@ def donate_payment_provider(request, id):
 @require_POST
 def donate_stripe(request):
     donation = get_object_or_404(Donation, id=request.POST.get('id'))
+    donation.payment_service_provider = 'stripe'
     donation.transaction = repr({
         key: values
         for key, values in request.POST.lists()
@@ -227,6 +228,7 @@ def donate_postfinance_postsale(request):
         if STATUS in ('5', '9'):
             donation.charged_at = timezone.now()
 
+        donation.payment_service_provider = 'postfinance'
         donation.transaction = parameters_repr
         donation.save()
 
@@ -247,6 +249,7 @@ def donate_banktransfer(request):
     donation = get_object_or_404(Donation, id=request.POST.get('id'))
     donation.transaction = repr(request.POST)
     donation.charged_at = timezone.now()
+    donation.payment_service_provider = 'banktransfer'
     donation.save()
 
     # TODO email verification before donation is counted towards total?

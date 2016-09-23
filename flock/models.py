@@ -156,6 +156,11 @@ class Donation(models.Model):
         max_digits=10,
         decimal_places=2,
     )
+    payment_service_provider = models.CharField(
+        _('payment service provider'),
+        max_length=100,
+        blank=True,
+    )
     selected_reward = models.ForeignKey(
         Reward,
         on_delete=models.PROTECT,
