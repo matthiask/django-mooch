@@ -62,7 +62,8 @@
     // image: '/img/documentation/checkout/marketplace.png',
     currency: 'CHF',
     name: document.title,
-    description: 'Spende',
+    description: 'Spende',  // TODO something better
+    locale: '{{ LANGUAGE_CODE|default:'auto' }}',
     token: function(token) {
       jQuery.post(
         '{% url "flock_donate_stripe" %}',
