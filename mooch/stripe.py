@@ -32,7 +32,7 @@ class StripeMoocher(BaseMoocher):
             'payment': payment,
             'publishable_key': self.publishable_key,
 
-            'LANGUAGE_CODE': request.LANGUAGE_CODE,
+            'LANGUAGE_CODE': getattr(request, 'LANGUAGE_CODE', 'auto'),
         }, request=request)
 
     @csrf_exempt_m
