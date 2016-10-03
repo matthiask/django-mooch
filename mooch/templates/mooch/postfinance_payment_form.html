@@ -1,16 +1,8 @@
 <div class="mooch mooch--postfinance">
 
   <form method="post" action="https://e-payment.postfinance.ch/ncol/{{ mode }}/orderstandard.asp" id="postfinanceform">
-    {% for key, value in postfinance.items %}
-      <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% for key, value in postfinance.items %}<input type="hidden" name="{{ key }}" value="{{ value }}">
     {% endfor %}
-    <input type="hidden" name="PSPID" value="{{ postfinance.PSPID }}">
-    <input type="hidden" name="orderID" value="{{ postfinance.donationID }}">
-    <input type="hidden" name="amount" value="{{ postfinance.amount }}">
-    <input type="hidden" name="currency" value="{{ postfinance.currency }}">
-    <input type="hidden" name="language" value="{{ locale }}">
-    <input type="hidden" name="SHASign" value="{{ postfinance.SHASign }}">
-    <input type="hidden" name="EMAIL" value="{{ donation.email }}">
 
     <!--
     <input type="hidden" name="CN" value="{{ donation.full_name }}">
