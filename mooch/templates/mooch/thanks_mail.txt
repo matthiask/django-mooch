@@ -3,6 +3,6 @@
 
 Hi,
 
-Thanks for your payment of {{ amount }}.
+Thanks for your payment of {{ payment.amount }}.
 
 {% trans 'Warm regards' %}

@@ -61,7 +61,7 @@ class StripeMoocher(BaseMoocher):
         instance.save()
 
         render_to_mail('mooch/thanks_mail', {
-            'instance': instance,
+            'payment': instance,
         }, to=[instance.email]).send(fail_silently=True)
 
         return http.HttpResponse('OK')
