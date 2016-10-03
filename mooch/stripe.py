@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
-from mooch.mail import render_to_mail
+from mooch.signals import post_charge
 
 
 class StripeMoocher(BaseMoocher):
@@ -65,8 +65,10 @@ class StripeMoocher(BaseMoocher):
         instance.transaction = response.text
         instance.save()
 
-        render_to_mail('mooch/thanks_mail', {
-            'payment': instance,
-        }, to=[instance.email]).send(fail_silently=True)
+        post_charge.send(
+            sender=self.__class__,
+            payment=instance,
+            request=request,
+        )
 
         return http.HttpResponse('OK')

@@ -52,3 +52,18 @@ Steps
                 moocher.payment_form(request, instance) for moocher in moochers
             ],
         })
+
+6. Maybe send a confirmation mail when charges happen (an example
+   template for this is actually included with the project)::
+
+    from mooch.mail import render_to_mail
+    from mooch.signals import post_charge
+
+    # The signal handler receives the moocher class, the payment and
+    # the request.
+    def send_mail(sender, payment, **kwargs):
+        render_to_mail('mooch/thanks_mail', {
+            'payment': payment,
+        }, to=[payment.email]).send(fail_silently=True)
+
+    post_charge.connect(send_mail)
