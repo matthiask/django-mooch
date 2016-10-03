@@ -2,6 +2,7 @@ from django import http
 from django.conf.urls import url
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from mooch.base import BaseMoocher, require_POST_m
@@ -27,6 +28,7 @@ class BankTransferMoocher(BaseMoocher):
     def confirm_view(self, request):
         instance = get_object_or_404(self.model, id=request.POST.get('id'))
         instance.payment_service_provider = self.identifier
+        instance.charged_at = timezone.now()
         instance.transaction = repr(request.META.copy())
         instance.save()
 
