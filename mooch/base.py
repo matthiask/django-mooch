@@ -15,6 +15,9 @@ class BaseMoocher(object):
     identifier = None
     title = _('Pay')
 
+    success_url = '/'
+    failure_url = '/'
+
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 

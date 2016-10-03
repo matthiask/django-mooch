@@ -38,4 +38,4 @@ class BankTransferMoocher(BaseMoocher):
             request=request,
         )
 
-        return http.HttpResponseRedirect('/')  # TODO
+        return http.HttpResponseRedirect(self.success_url)

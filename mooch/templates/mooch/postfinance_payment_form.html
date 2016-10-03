@@ -12,10 +12,10 @@
     <input type="hidden" name="ownercty" value="{{ donation.billing_country }}">
     -->
 
-    <input type="hidden" name="accepturl" value="{{ thanks_url }}">
-    <input type="hidden" name="declineurl" value="{{ fail_url }}">
-    <input type="hidden" name="exceptionurl" value="{{ fail_url }}">
-    <input type="hidden" name="cancelurl" value="{{ fail_url }}">
+    <input type="hidden" name="accepturl" value="{{ success_url }}">
+    <input type="hidden" name="declineurl" value="{{ failure_url }}">
+    <input type="hidden" name="exceptionurl" value="{{ failure_url }}">
+    <input type="hidden" name="cancelurl" value="{{ failure_url }}">
 
     <!-- Disable credit cards and stuff, we do not have an acquirer contract -->
     <input type="hidden" name="PMLIST" value="PostFinance Card;PostFinance e-finance">

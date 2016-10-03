@@ -17,7 +17,7 @@
       xhr.open('POST', '{% url "mooch:stripe_charge" %}', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
       xhr.onload = function() {
-        window.location.href = '/';  // TODO
+        window.location.href = '{{ moocher.success_url }}';  // TODO
       };
       xhr.send(
           'id=' + encodeURIComponent('{{ payment.id.hex }}') +
