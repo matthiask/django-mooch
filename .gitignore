@@ -9,6 +9,6 @@
 /_build
 /build
 /dist
-/django_flock.egg-info
+/django_mooch.egg-info
 /tests/venv
 .tox

@@ -1,38 +1,30 @@
 #!/usr/bin/env python
 
+import io
 import os
 from setuptools import setup, find_packages
 
 
 def read(filename):
-    return open(os.path.join(os.path.dirname(__file__), filename)).read()
+    with io.open(
+            os.path.join(os.path.dirname(__file__), filename),
+            encoding='utf-8') as f:
+        return f.read()
 
 
 setup(
-    name='django-flock',
-    version=__import__('flock').__version__,
-    description='Simple crowdfunding for Django',
+    name='django-mooch',
+    version=__import__('mooch').__version__,
+    description='Simple payment for Django',
     long_description=read('README.rst'),
     author='Matthias Kestenholz',
-    author_email='mk@406.ch',
-    url='https://bitbucket.org/matthiask/django-flock/',
-    license='BSD License',
+    author_email='mk@feinheit.ch',
+    url='https://github.com/matthiask/django-mooch/',
+    license='MIT License',
     platforms=['OS Independent'],
     packages=find_packages(),
-    package_data={
-        '': ['*.html', '*.txt'],
-        'flock': [
-            'locale/*/*/*.*',
-            # 'static/flock/*.*',
-            # 'static/flock/*/*.*',
-            'templates/*.*',
-            'templates/*/*.*',
-            'templates/*/*/*.*',
-            'templates/*/*/*/*.*',
-        ],
-    },
+    include_package_data=True,
     install_requires=[
-        'Django>=1.7',
         'requests>2',
     ],
     classifiers=[

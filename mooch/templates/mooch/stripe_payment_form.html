@@ -1,0 +1,44 @@
+<div class="moocher moocher--stripe">
+<button type="button" id="stripeButton">Bezahlen via Stripe (VISA, Mastercard)</button>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+<script>
+  jQuery.noConflict();
+  var handler = StripeCheckout.configure({
+    key: '{{ STRIPE_PUBLISHABLE_KEY }}',
+    // image: '/img/documentation/checkout/marketplace.png',
+    currency: 'CHF',
+    name: document.title,
+    description: 'Spende',  // TODO something better
+    locale: '{{ LANGUAGE_CODE|default:'auto' }}',
+    token: function(token) {
+      jQuery.post(
+        '{% url "flock_donate_stripe" %}',
+        {
+          id: '{{ donation.id.hex }}',
+          token: token.id
+        },
+        function(data) {
+          window.location.href = '{% url "flock_thanks" %}';
+        }
+      );
+    }
+  });
+
+  jQuery('#stripeButton').on('click', function(e) {
+    // Open Checkout with further options
+    handler.open({
+      amount: {{ donation.amount_cents }}
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation
+  jQuery(window).on('popstate', function() {
+    handler.close();
+  });
+</script>
+
+</div>
