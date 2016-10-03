@@ -19,7 +19,7 @@ class StripeMoocher(BaseMoocher):
     def __init__(self, **kwargs):
         self.publishable_key = settings.STRIPE_PUBLISHABLE_KEY
         self.secret_key = settings.STRIPE_SECRET_KEY
-        super().__init__(**kwargs)
+        super(StripeMoocher, self).__init__(**kwargs)
 
     def get_urls(self):
         return [
