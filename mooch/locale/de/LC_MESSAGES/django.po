@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 15:21+0200\n"
+"POT-Creation-Date: 2016-10-03 15:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: banktransfer.py:13
+msgid "Pay by bank transfer"
+msgstr "Zahlen mit Banküberweisung"
+
+#: base.py:16
+#| msgid "Payment"
+msgid "Pay"
+msgstr "Zahlen"
 
 #: models.py:15
 msgid "created at"
@@ -50,16 +59,20 @@ msgstr "Zahlung"
 msgid "donations"
 msgstr "Spenden"
 
-#: templates/mooch/stripe_payment_form.html:3
-msgid "Pay with Stripe (VISA, Mastercard)"
-msgstr "Mit Stripe zahlen (VISA, Mastercard)"
+#: postfinance.py:23
+msgid "Pay with PostFinance"
+msgstr "Zahlen via PostFinance"
+
+#: stripe.py:17
+#| msgid "Pay with Stripe (VISA, Mastercard)"
+msgid "Pay with Stripe"
+msgstr "Mit Stripe zahlen"
 
 #: templates/mooch/stripe_payment_form.html:13
 msgid "Payment"
 msgstr "Zahlung"
 
 #: templates/mooch/thanks_mail.txt:2
-#| msgid "Thank you for your donation!"
 msgid "Thank you for the payment!"
 msgstr "Vielen Dank für die Zahlung!"
 
