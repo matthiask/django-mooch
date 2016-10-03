@@ -13,18 +13,21 @@ from mooch.mail import render_to_mail
 
 class StripeMoocher(BaseMoocher):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self.publishable_key = settings.STRIPE_PUBLISHABLE_KEY
         self.secret_key = settings.STRIPE_SECRET_KEY
+        super().__init__(**kwargs)
 
     def get_urls(self):
         return [
             url(r'^charge/$', self.charge_view, name='stripe_charge'),
         ]
 
-    def payment_form(self):
+    def payment_form(self, request, payment):
         return render_to_string('mooch/stripe_payment_form.html', {
+            'payment': payment,
             'publishable_key': self.publishable_key,
+
+            'LANGUAGE_CODE': request.LANGUAGE_CODE,
         })
 
     @csrf_exempt_m
@@ -57,7 +60,7 @@ class StripeMoocher(BaseMoocher):
         instance.transaction = response.text
         instance.save()
 
-        render_to_mail('flock/thanks_mail', {
+        render_to_mail('mooch/thanks_mail', {
             'instance': instance,
         }, to=[instance.email]).send(fail_silently=True)
 

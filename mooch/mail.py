@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import TemplateDoesNotExist, render_to_string
 

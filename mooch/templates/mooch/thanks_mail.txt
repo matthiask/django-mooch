@@ -1,19 +1,8 @@
 {% load i18n %}
-{% trans 'Thank you for your donation!' %}
+{% trans 'Thank you for the payment!' %}
 
-{% blocktrans trimmed with full_name=donation.full_name %}
-Dear {{ full_name }},
-{% endblocktrans %}
+Hi,
 
-{% blocktrans trimmed with project=donation.project amount=donation.amount %}
-Thank you for your donation of {{ amount }} to «{{ project }}».
-{% endblocktrans %}
-
-{% if donation.selected_reward %}{% blocktrans trimmed with reward=donation.selected_reward %}
-Your reward is {{ reward }}.
-{% endblocktrans %}{% endif %}
+Thanks for your payment of {{ amount }}.
 
 {% trans 'Warm regards' %}
-
-PC: xx-xxxxxx-x
-IBAN: xxxx xxxx xxxx xxxx xx

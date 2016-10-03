@@ -1,0 +1,34 @@
+<div class="mooch mooch--postfinance">
+
+  <form method="post" action="https://e-payment.postfinance.ch/ncol/{{ mode }}/orderstandard.asp" id="postfinanceform">
+    {% for key, value in postfinance.items %}
+      <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endfor %}
+    <input type="hidden" name="PSPID" value="{{ postfinance.PSPID }}">
+    <input type="hidden" name="orderID" value="{{ postfinance.donationID }}">
+    <input type="hidden" name="amount" value="{{ postfinance.amount }}">
+    <input type="hidden" name="currency" value="{{ postfinance.currency }}">
+    <input type="hidden" name="language" value="{{ locale }}">
+    <input type="hidden" name="SHASign" value="{{ postfinance.SHASign }}">
+    <input type="hidden" name="EMAIL" value="{{ donation.email }}">
+
+    <!--
+    <input type="hidden" name="CN" value="{{ donation.full_name }}">
+    <input type="hidden" name="owneraddress" value="{{ donation.billing_address }}">
+    <input type="hidden" name="ownerZIP" value="{{ donation.billing_zip_code }}">
+    <input type="hidden" name="ownertown" value="{{ donation.billing_city }}">
+    <input type="hidden" name="ownercty" value="{{ donation.billing_country }}">
+    -->
+
+    <input type="hidden" name="accepturl" value="{{ thanks_url }}">
+    <input type="hidden" name="declineurl" value="{{ fail_url }}">
+    <input type="hidden" name="exceptionurl" value="{{ fail_url }}">
+    <input type="hidden" name="cancelurl" value="{{ fail_url }}">
+
+    <!-- Disable credit cards and stuff, we do not have an acquirer contract -->
+    <input type="hidden" name="PMLIST" value="PostFinance Card;PostFinance e-finance">
+
+    <button type="submit">Bezahlen via Postfinance (Postcard, Postfinance E-Finance)</button>
+  </form>
+
+</div>
