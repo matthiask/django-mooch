@@ -2,11 +2,9 @@
 <div class="moocher moocher--stripe">
 <button type="button" id="stripeButton">{% trans "Pay with Stripe (VISA, Mastercard)" %}</button>
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
 <script>
-  jQuery.noConflict();
   var handler = StripeCheckout.configure({
     key: '{{ publishable_key }}',
     // image: '/img/documentation/checkout/marketplace.png',
@@ -15,31 +13,25 @@
     description: '{% trans "Payment" %}',  // TODO something better
     locale: '{{ LANGUAGE_CODE|default:'auto' }}',
     token: function(token) {
-      jQuery.post(
-        '{% url "mooch:stripe_charge" %}',
-        {
-          id: '{{ donation.id.hex }}',
-          token: token.id
-        },
-        function(data) {
-          window.location.href = '/';  // TODO
-        }
-      );
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '{% url "mooch:stripe_charge" %}', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      xhr.onload = function() {
+        window.location.href = '/';  // TODO
+      };
+      xhr.send(
+          'id=' + encodeURIComponent('{{ payment.id.hex }}') +
+          '&token=' + encodeURIComponent(token.id));
     }
   });
 
-  jQuery('#stripeButton').on('click', function(e) {
-    // Open Checkout with further options
-    handler.open({
-      amount: {{ payment.amount_cents }}
-    });
-    e.preventDefault();
-  });
+document.querySelector('.moocher--stripe button').addEventListener('click', function(e) {
+  e.preventDefault();
 
-  // Close Checkout on page navigation
-  jQuery(window).on('popstate', function() {
-    handler.close();
-  });
+  handler.open({amount: {{ payment.amount_cents }} });
+});
+
+window.addEventListener('popstate', function() { handler.close(); });
 </script>
 
 </div>
