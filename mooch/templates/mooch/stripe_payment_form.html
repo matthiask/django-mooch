@@ -31,7 +31,7 @@
   jQuery('#stripeButton').on('click', function(e) {
     // Open Checkout with further options
     handler.open({
-      amount: {{ instance.amount_cents }}
+      amount: {{ payment.amount_cents }}
     });
     e.preventDefault();
   });
