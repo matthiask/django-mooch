@@ -14,7 +14,7 @@ class BankTransferMoocher(BaseMoocher):
 
     def get_urls(self):
         return [
-            url('^confirm/$', self.confirm_view, name='dummy_confirm'),
+            url('^confirm/$', self.confirm_view, name='banktransfer_confirm'),
         ]
 
     def payment_form(self, request, payment):

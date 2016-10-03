@@ -1,5 +1,5 @@
-<div class="mooch mooch--dummy">
-  <form method="post" action="{% url 'mooch:dummy_confirm' %}">
+<div class="mooch mooch--banktransfer">
+  <form method="post" action="{% url 'mooch:banktransfer_confirm' %}">
     {% csrf_token %}
     <input type="hidden" name="id" value="{{ payment.id.hex }}">
     <button type="submit">{{ moocher.title }}</button>
