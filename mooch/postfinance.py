@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import get_language, to_locale
+from django.utils.translation import ugettext_lazy as _
 
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
 from mooch.mail import render_to_mail
@@ -18,6 +19,9 @@ logger = logging.getLogger('mooch.postfinance')
 
 
 class PostfinanceMoocher(BaseMoocher):
+    identifier = 'postfinance'
+    title = _('Pay with PostFinance')
+
     def __init__(self, **kwargs):
         self.pspid = settings.POSTFINANCE_PSPID
         self.live = settings.POSTFINANCE_LIVE
@@ -53,13 +57,14 @@ class PostfinanceMoocher(BaseMoocher):
         ))).encode('utf-8')).hexdigest()
 
         return render_to_string('mooch/postfinance_payment_form.html', {
+            'moocher': self,
             'payment': payment,
             'postfinance': postfinance,
             'mode': 'prod' if self.live else 'test',
 
             'thanks_url': request.build_absolute_uri('/'),  # TODO
             'fail_url': request.build_absolute_uri('/'),  # TODO
-        })
+        }, request=request)
 
     @csrf_exempt_m
     @require_POST_m
@@ -114,7 +119,7 @@ class PostfinanceMoocher(BaseMoocher):
             if STATUS in ('5', '9'):
                 instance.charged_at = timezone.now()
 
-            instance.payment_service_provider = 'postfinance'
+            instance.payment_service_provider = self.identifier
             instance.transaction = parameters_repr
             instance.save()
 

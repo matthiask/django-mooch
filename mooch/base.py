@@ -1,4 +1,5 @@
 from django.utils.decorators import method_decorator
+from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -10,6 +11,9 @@ require_POST_m = method_decorator(require_POST)
 class BaseMoocher(object):
     #: The model instance used for mooching
     model = None
+
+    identifier = None
+    title = _('Pay')
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)

@@ -6,12 +6,16 @@ from django.conf.urls import url
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
 from mooch.mail import render_to_mail
 
 
 class StripeMoocher(BaseMoocher):
+    identifier = 'stripe'
+    title = _('Pay with Stripe')
+
     def __init__(self, **kwargs):
         self.publishable_key = settings.STRIPE_PUBLISHABLE_KEY
         self.secret_key = settings.STRIPE_SECRET_KEY
@@ -24,17 +28,18 @@ class StripeMoocher(BaseMoocher):
 
     def payment_form(self, request, payment):
         return render_to_string('mooch/stripe_payment_form.html', {
+            'moocher': self,
             'payment': payment,
             'publishable_key': self.publishable_key,
 
             'LANGUAGE_CODE': request.LANGUAGE_CODE,
-        })
+        }, request=request)
 
     @csrf_exempt_m
     @require_POST_m
     def charge_view(self, request):
         instance = get_object_or_404(self.model, id=request.POST.get('id'))
-        instance.payment_service_provider = 'stripe'
+        instance.payment_service_provider = self.identifier
         instance.transaction = repr({
             key: values
             for key, values in request.POST.lists()
