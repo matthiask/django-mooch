@@ -47,8 +47,8 @@ class PostfinanceMoocher(BaseMoocher):
                 to_locale(get_language())).split('.')[0],
             'EMAIL': payment.email,
 
-            'success_url': request.build_absolute_uri(self.success_url),
-            'failure_url': request.build_absolute_uri(self.failure_url),
+            'success_url': request.build_absolute_uri(str(self.success_url)),
+            'failure_url': request.build_absolute_uri(str(self.failure_url)),
         }
 
         postfinance['SHASign'] = sha1((''.join((
