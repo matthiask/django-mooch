@@ -18,7 +18,7 @@ from mooch.signals import post_charge
 logger = logging.getLogger('mooch.postfinance')
 
 
-class PostfinanceMoocher(BaseMoocher):
+class PostFinanceMoocher(BaseMoocher):
     identifier = 'postfinance'
     title = _('Pay with PostFinance')
 
@@ -27,7 +27,7 @@ class PostfinanceMoocher(BaseMoocher):
         self.live = settings.POSTFINANCE_LIVE
         self.sha1_in = settings.POSTFINANCE_SHA1_IN
         self.sha1_out = settings.POSTFINANCE_SHA1_OUT
-        super(PostfinanceMoocher, self).__init__(**kwargs)
+        super(PostFinanceMoocher, self).__init__(**kwargs)
 
     def get_urls(self):
         return [
@@ -37,7 +37,7 @@ class PostfinanceMoocher(BaseMoocher):
 
     def payment_form(self, request, payment):
         postfinance = {
-            # Add a random suffix, because Postfinance does not like
+            # Add a random suffix, because PostFinance does not like
             # processing the same order ID over and over.
             'orderID': '%s-%s' % (payment.id.hex, get_random_string(4)),
             'amount': str(payment.amount_cents),

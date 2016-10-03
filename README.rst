@@ -21,13 +21,13 @@ Steps
 
     from django.conf.urls import include, url
 
-    from mooch.postfinance import PostfinanceMoocher
+    from mooch.postfinance import PostFinanceMoocher
     from mooch.stripe import StripeMoocher
 
     from myapp.models import Thing  # Inherit mooch.models.Payment
 
 
-    postfinance_moocher = PostfinanceMoocher(model=Thing)
+    postfinance_moocher = PostFinanceMoocher(model=Thing)
     stripe_moocher = StripeMoocher(model=Thing)
 
     moochers = [postfinance_moocher, stripe_moocher]
