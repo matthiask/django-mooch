@@ -3,7 +3,6 @@ import locale
 import logging
 
 from django import http
-from django.conf import settings
 from django.conf.urls import url
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -22,11 +21,11 @@ class PostFinanceMoocher(BaseMoocher):
     identifier = 'postfinance'
     title = _('Pay with PostFinance')
 
-    def __init__(self, **kwargs):
-        self.pspid = settings.POSTFINANCE_PSPID
-        self.live = settings.POSTFINANCE_LIVE
-        self.sha1_in = settings.POSTFINANCE_SHA1_IN
-        self.sha1_out = settings.POSTFINANCE_SHA1_OUT
+    def __init__(self, *, pspid, live, sha1_in, sha1_out, **kwargs):
+        self.pspid = pspid
+        self.live = live
+        self.sha1_in = sha1_in
+        self.sha1_out = sha1_out
         super(PostFinanceMoocher, self).__init__(**kwargs)
 
     def get_urls(self):

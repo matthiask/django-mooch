@@ -1,7 +1,6 @@
 import requests
 
 from django import http
-from django.conf import settings
 from django.conf.urls import url
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -16,9 +15,9 @@ class StripeMoocher(BaseMoocher):
     identifier = 'stripe'
     title = _('Pay with Stripe')
 
-    def __init__(self, **kwargs):
-        self.publishable_key = settings.STRIPE_PUBLISHABLE_KEY
-        self.secret_key = settings.STRIPE_SECRET_KEY
+    def __init__(self, *, publishable_key, secret_key, **kwargs):
+        self.publishable_key = publishable_key
+        self.secret_key = secret_key = secret_key
         super(StripeMoocher, self).__init__(**kwargs)
 
     def get_urls(self):
