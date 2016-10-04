@@ -36,7 +36,6 @@ class BankTransferMoocher(BaseMoocher):
         instance.payment_service_provider = self.identifier
         if self.autocharge:
             instance.charged_at = timezone.now()
-        instance.transaction = repr(request.META.copy())
         instance.save()
 
         post_charge.send(
