@@ -2,6 +2,7 @@ import requests
 
 from django import http
 from django.conf.urls import url
+from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -16,6 +17,11 @@ class StripeMoocher(BaseMoocher):
     title = _('Pay with Stripe')
 
     def __init__(self, *, publishable_key, secret_key, **kwargs):
+        if any(x is None for x in (publishable_key, secret_key)):
+            raise ImproperlyConfigured(
+                '%s: None is not allowed in (%r, %r)' % (
+                    self.__class__.__name__, publishable_key, secret_key))
+
         self.publishable_key = publishable_key
         self.secret_key = secret_key = secret_key
         super().__init__(**kwargs)

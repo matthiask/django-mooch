@@ -4,6 +4,7 @@ import logging
 
 from django import http
 from django.conf.urls import url
+from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.crypto import get_random_string
@@ -22,6 +23,11 @@ class PostFinanceMoocher(BaseMoocher):
     title = _('Pay with PostFinance')
 
     def __init__(self, *, pspid, live, sha1_in, sha1_out, **kwargs):
+        if any(x is None for x in (pspid, live, sha1_in, sha1_out)):
+            raise ImproperlyConfigured(
+                '%s: None is not allowed in (%r, %r, %r, %r)' % (
+                    self.__class__.__name__, pspid, live, sha1_in, sha1_out))
+
         self.pspid = pspid
         self.live = live
         self.sha1_in = sha1_in
