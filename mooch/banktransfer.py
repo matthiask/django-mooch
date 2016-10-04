@@ -13,6 +13,10 @@ class BankTransferMoocher(BaseMoocher):
     identifier = 'banktransfer'
     title = _('Pay by bank transfer')
 
+    def __init__(self, *, autocharge, **kw):
+        self.autocharge = autocharge
+        super(BankTransferMoocher, self).__init__(**kw)
+
     def get_urls(self):
         return [
             url('^confirm/$', self.confirm_view, name='banktransfer_confirm'),
@@ -28,7 +32,8 @@ class BankTransferMoocher(BaseMoocher):
     def confirm_view(self, request):
         instance = get_object_or_404(self.model, id=request.POST.get('id'))
         instance.payment_service_provider = self.identifier
-        instance.charged_at = timezone.now()
+        if self.autocharge:
+            instance.charged_at = timezone.now()
         instance.transaction = repr(request.META.copy())
         instance.save()
 
