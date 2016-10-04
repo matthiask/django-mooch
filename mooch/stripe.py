@@ -22,7 +22,9 @@ class StripeMoocher(BaseMoocher):
 
     def get_urls(self):
         return [
-            url(r'^charge/$', self.charge_view, name='stripe_charge'),
+            url(r'^stripe_charge/$',
+                self.charge_view,
+                name='stripe_charge'),
         ]
 
     def payment_form(self, request, payment):

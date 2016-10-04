@@ -30,7 +30,8 @@ class PostFinanceMoocher(BaseMoocher):
 
     def get_urls(self):
         return [
-            url(r'^postsale/$', self.postsale_view,
+            url(r'^postfinance_postsale/$',
+                self.postsale_view,
                 name='postfinance_postsale'),
         ]
 
