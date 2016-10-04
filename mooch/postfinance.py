@@ -26,7 +26,7 @@ class PostFinanceMoocher(BaseMoocher):
         self.live = live
         self.sha1_in = sha1_in
         self.sha1_out = sha1_out
-        super(PostFinanceMoocher, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def get_urls(self):
         return [

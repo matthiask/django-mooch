@@ -15,7 +15,7 @@ class BankTransferMoocher(BaseMoocher):
 
     def __init__(self, *, autocharge, **kw):
         self.autocharge = autocharge
-        super(BankTransferMoocher, self).__init__(**kw)
+        super().__init__(**kw)
 
     def get_urls(self):
         return [
