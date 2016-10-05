@@ -52,9 +52,6 @@ class PostFinanceMoocher(BaseMoocher):
             'language': locale.normalize(
                 to_locale(get_language())).split('.')[0],
             'EMAIL': payment.email,
-
-            'success_url': request.build_absolute_uri(str(self.success_url)),
-            'failure_url': request.build_absolute_uri(str(self.failure_url)),
         }
 
         postfinance['SHASign'] = sha1((''.join((
@@ -71,8 +68,8 @@ class PostFinanceMoocher(BaseMoocher):
             'postfinance': postfinance,
             'mode': 'prod' if self.live else 'test',
 
-            'thanks_url': request.build_absolute_uri('/'),  # TODO
-            'fail_url': request.build_absolute_uri('/'),  # TODO
+            'success_url': request.build_absolute_uri(str(self.success_url)),
+            'failure_url': request.build_absolute_uri(str(self.failure_url)),
         }, request=request)
 
     @csrf_exempt_m
