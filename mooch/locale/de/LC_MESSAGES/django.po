@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 15:47+0200\n"
+"POT-Creation-Date: 2016-11-09 17:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: banktransfer.py:13
+#: banktransfer.py:14
 msgid "Pay by bank transfer"
 msgstr "Zahlen mit Banküberweisung"
 
 #: base.py:16
-#| msgid "Payment"
 msgid "Pay"
 msgstr "Zahlen"
 
@@ -56,15 +55,14 @@ msgid "payment"
 msgstr "Zahlung"
 
 #: models.py:46
-msgid "donations"
-msgstr "Spenden"
+msgid "payments"
+msgstr "Zahlungen"
 
 #: postfinance.py:23
 msgid "Pay with PostFinance"
 msgstr "Zahlen via PostFinance"
 
 #: stripe.py:17
-#| msgid "Pay with Stripe (VISA, Mastercard)"
 msgid "Pay with Stripe"
 msgstr "Zahlen via Stripe"
 
@@ -79,94 +77,3 @@ msgstr "Vielen Dank für die Zahlung!"
 #: templates/mooch/thanks_mail.txt:8
 msgid "Warm regards"
 msgstr "Freundliche Grüsse"
-
-#~ msgid "Reward"
-#~ msgstr "Belohnung"
-
-#~ msgid "Participating is enough, thank you"
-#~ msgstr "Dabei sein genügt, besten Dank"
-
-#~ msgid "The selected reward requires a minimal donation of %(amount)s."
-#~ msgstr "Die gewählte Belohnung ist erst ab %(amount)s verfügbar."
-
-#~ msgid "This reward is not available anymore. Sorry!"
-#~ msgstr "Diese Belohnung ist leider nicht mehr verfügbar. Tut uns leid!"
-
-#~ msgid "Remember my name"
-#~ msgstr "Meinen Namen merken"
-
-#~ msgid "is active"
-#~ msgstr "ist aktiv"
-
-#~ msgid "title"
-#~ msgstr "Titel"
-
-#~ msgid "funding goal"
-#~ msgstr "Finanzierungsziel"
-
-#~ msgid "default amount"
-#~ msgstr "Standard-Spende"
-
-#~ msgid "is reward required?"
-#~ msgstr "wird Belohnung benötigt?"
-
-#~ msgid "project"
-#~ msgstr "Projekt"
-
-#~ msgid "projects"
-#~ msgstr "Projekte"
-
-#~ msgid "available"
-#~ msgstr "verfügbar"
-
-#~ msgid "Leave empty if availability is unlimited."
-#~ msgstr "Leer lassen falls Verfügbarkeit nicht limitiert werden soll."
-
-#~ msgid "donation amount"
-#~ msgstr "Spendenbetrag"
-
-#~ msgid "The donation has to be at least this amount."
-#~ msgstr "Die Spende muss mindestens so hoch sein."
-
-#~ msgid "reward"
-#~ msgstr "Belohnung"
-
-#~ msgid "rewards"
-#~ msgstr "Belohnungen"
-
-#~ msgid "%(title)s (from %(amount)s)"
-#~ msgstr "%(title)s (ab %(amount)s)"
-
-#~ msgid "selected reward"
-#~ msgstr "gewählte Belohnung"
-
-#~ msgid "full name"
-#~ msgstr "Voller Name"
-
-#~ msgid "postal address"
-#~ msgstr "Postadresse"
-
-#~ msgid "donation"
-#~ msgstr "Spende"
-
-#~ msgid "No active project found"
-#~ msgstr "Kein aktives Projekt gefunden"
-
-#~ msgid "Dear %(full_name)s,"
-#~ msgstr "Liebe/r %(full_name)s,"
-
-#~ msgid "Thank you for your donation of %(amount)s to «%(project)s»."
-#~ msgstr "Vielen Dank für die Spende von %(amount)s für «%(project)s»."
-
-#~ msgid "Your reward is %(reward)s."
-#~ msgstr "Die Belohnung ist %(reward)s."
-
-#~ msgid "This donation has already been processed. Thank you!"
-#~ msgstr "Diese Spende wurde schon verarbeitet. Vielen Dank!"
-
-#~ msgid ""
-#~ "You will receive an email within a few minutes containing details about "
-#~ "your donation. Thank you!"
-#~ msgstr ""
-#~ "Sie erhalten in den nächsten Minuten ein Mail mit Details zur Spende. "
-#~ "Vielen Dank!"

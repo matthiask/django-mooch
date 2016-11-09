@@ -43,7 +43,7 @@ class Payment(models.Model):
         abstract = True
         ordering = ('-created_at',)
         verbose_name = _('payment')
-        verbose_name_plural = _('donations')
+        verbose_name_plural = _('payments')
 
     def __str__(self):
         return '%.2f' % self.amount
