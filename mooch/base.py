@@ -18,6 +18,8 @@ class BaseMoocher(object):
     success_url = '/'
     failure_url = '/'
 
+    app_name = 'mooch'
+
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 

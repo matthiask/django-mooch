@@ -5,6 +5,7 @@ from django.conf.urls import url
 from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -38,6 +39,8 @@ class StripeMoocher(BaseMoocher):
             'moocher': self,
             'payment': payment,
             'publishable_key': self.publishable_key,
+
+            'charge_url': reverse('%s:stripe_charge' % self.app_name),
 
             'LANGUAGE_CODE': getattr(request, 'LANGUAGE_CODE', 'auto'),
         }, request=request)

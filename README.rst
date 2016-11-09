@@ -20,6 +20,8 @@ Steps
     from myapp.models import Thing  # Inherit mooch.models.Payment
 
 
+    app_name = 'mooch'  # This is the app namespace.
+
     moochers = [
         PostFinanceMoocher(
             model=Thing,
@@ -27,20 +29,21 @@ Steps
             live=False,
             sha1_in=settings.POSTFINANCE_SHA1_IN,
             sha1_out=settings.POSTFINANCE_SHA1_OUT,
+            app_name=app_name,
         ),
         StripeMoocher(
             model=Thing,
             publishable_key=settings.STRIPE_PUBLISHABLE_KEY,
             secret_key=settings.STRIPE_SECRET_KEY,
+            app_name=app_name,
         ),
         BankTransferMoocher(
             model=Thing,
             autocharge=True,  # Mark all payments as successful.
+            app_name=app_name,
         ),
     ]
 
-
-    app_name = 'mooch'  # This is important
     urlpatterns = [
         url(r'', moocher.urls) for moocher in moochers
     ]

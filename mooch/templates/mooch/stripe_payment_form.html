@@ -14,7 +14,7 @@
     locale: '{{ LANGUAGE_CODE|default:'auto' }}',
     token: function(token) {
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', '{% url "mooch:stripe_charge" %}', true);
+      xhr.open('POST', '{{ charge_url }}', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
       xhr.onload = function() {
         window.location.href = '{{ moocher.success_url }}';  // TODO

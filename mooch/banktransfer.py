@@ -2,6 +2,7 @@ from django import http
 from django.conf.urls import url
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -28,6 +29,8 @@ class BankTransferMoocher(BaseMoocher):
         return render_to_string('mooch/banktransfer_payment_form.html', {
             'payment': payment,
             'moocher': self,
+
+            'confirm_url': reverse('%s:banktransfer_confirm' % self.app_name),
         }, request=request)
 
     @require_POST_m
