@@ -68,9 +68,11 @@ Steps
     # The signal handler receives the moocher class, the payment and
     # the request.
     def send_mail(sender, payment, **kwargs):
-        render_to_mail('mooch/thanks_mail', {
-            'payment': payment,
-        }, to=[payment.email]).send(fail_silently=True)
+        if isinstance(payment, Thing):
+            # Moochers may be used more than once per website
+            render_to_mail('mooch/thanks_mail', {
+                'payment': payment,
+            }, to=[payment.email]).send(fail_silently=True)
 
     post_charge.connect(send_mail)
 
