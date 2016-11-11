@@ -10,6 +10,8 @@ Steps
 
 2. Add a moochers app::
 
+    from collections import OrderedDict
+
     from django.conf import settings
     from django.conf.urls import include, url
 
@@ -22,30 +24,30 @@ Steps
 
     app_name = 'mooch'  # This is the app namespace.
 
-    moochers = [
-        PostFinanceMoocher(
+    moochers = OrderedDict((
+        ('postfinance', PostFinanceMoocher(
             model=Thing,
             pspid='thing',
             live=False,
             sha1_in=settings.POSTFINANCE_SHA1_IN,
             sha1_out=settings.POSTFINANCE_SHA1_OUT,
             app_name=app_name,
-        ),
-        StripeMoocher(
+        )),
+        ('stripe', StripeMoocher(
             model=Thing,
             publishable_key=settings.STRIPE_PUBLISHABLE_KEY,
             secret_key=settings.STRIPE_SECRET_KEY,
             app_name=app_name,
-        ),
-        BankTransferMoocher(
+        )),
+        ('banktransfer', BankTransferMoocher(
             model=Thing,
             autocharge=True,  # Mark all payments as successful.
             app_name=app_name,
-        ),
+        )),
     ]
 
     urlpatterns = [
-        url(r'', moocher.urls) for moocher in moochers
+        url(r'', moocher.urls) for moocher in moochers.values()
     ]
 
 3. Include the moochers app / URLconf somewhere in your other URLconfs.
@@ -58,26 +60,30 @@ Steps
         return render(request, 'pay.html', {
             'thing': instance,
             'moochers': [
-                moocher.payment_form(request, instance) for moocher in moochers
+                moocher.payment_form(request, instance)
+                for moocher in moochers.values()
             ],
         })
 
 5. Maybe send a confirmation mail when charges happen (an example
-   template for this is actually included with the project)::
+   template for this is actually included with the project). Please note
+   that contrary to most other projects, django-mooch uses the moocher
+   **instance** as sender, not the class::
 
     from mooch.mail import render_to_mail
     from mooch.signals import post_charge
 
-    # The signal handler receives the moocher class, the payment and
+    # The signal handler receives the moocher instance, the payment and
     # the request.
-    def send_mail(sender, payment, **kwargs):
-        if isinstance(payment, Thing):
-            # Moochers may be used more than once per website
-            render_to_mail('mooch/thanks_mail', {
-                'payment': payment,
-            }, to=[payment.email]).send(fail_silently=True)
+    def send_mail(sender, payment, request, **kwargs):
+        render_to_mail('mooch/thanks_mail', {
+            'payment': payment,
+        }, to=[payment.email]).send(fail_silently=True)
 
-    post_charge.connect(send_mail)
+    # Connect the signal to our moocher instances (moochers may be used
+    more than once on the same website):
+    for moocher in moochers.values():
+        post_charge.connect(send_mail, sender=moocher)
 
    If you want to differentiate between moochers (for example to send
    a different mail for bank transfers, because the payment has not
@@ -85,6 +91,6 @@ Steps
    as follows::
 
     # Some stuff you'll have to imagine... sorry.
-    post_charge.connect(thank_you_mail, sender=PostFinanceMoocher)
-    post_charge.connect(thank_you_mail, sender=StripeMoocher)
-    post_charge.connect(please_pay_mail, sender=BankTransferMoocher)
+    post_charge.connect(thank_you_mail, moochers['postfinance'])
+    post_charge.connect(thank_you_mail, moochers['stripe'])
+    post_charge.connect(please_pay_mail, moochers['banktransfer'])

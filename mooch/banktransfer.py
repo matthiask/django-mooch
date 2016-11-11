@@ -41,10 +41,6 @@ class BankTransferMoocher(BaseMoocher):
             instance.charged_at = timezone.now()
         instance.save()
 
-        post_charge.send(
-            sender=self.__class__,
-            payment=instance,
-            request=request,
-        )
+        post_charge.send(sender=self, payment=instance, request=request)
 
         return http.HttpResponseRedirect(self.success_url)
