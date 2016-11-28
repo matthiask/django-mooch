@@ -4,7 +4,10 @@ import logging
 
 from django import http
 from django.conf.urls import url
-from django.core.exceptions import ImproperlyConfigured
+from django.contrib import messages
+from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.crypto import get_random_string
@@ -36,6 +39,9 @@ class PostFinanceMoocher(BaseMoocher):
 
     def get_urls(self):
         return [
+            url(r'^postfinance_success/$',
+                self.success_view,
+                name='postfinance_success'),
             url(r'^postfinance_postsale/$',
                 self.postsale_view,
                 name='postfinance_postsale'),
@@ -68,32 +74,31 @@ class PostFinanceMoocher(BaseMoocher):
             'postfinance': postfinance,
             'mode': 'prod' if self.live else 'test',
 
-            'success_url': request.build_absolute_uri(str(self.success_url)),
+            'success_url': request.build_absolute_uri(reverse(
+                '%s:postfinance_success' % self.app_name)),
             'failure_url': request.build_absolute_uri(str(self.failure_url)),
         }, request=request)
 
-    @csrf_exempt_m
-    @require_POST_m
-    def postsale_view(self, request):
+    def _process_query(self, data, request):
         try:
-            parameters_repr = repr(request.POST.copy()).encode('utf-8')
+            parameters_repr = repr(data).encode('utf-8')
             logger.info('IPN: Processing request data %s' % parameters_repr)
 
             try:
-                orderID = request.POST['orderID']
-                currency = request.POST['currency']
-                amount = request.POST['amount']
-                PM = request.POST['PM']
-                ACCEPTANCE = request.POST['ACCEPTANCE']
-                STATUS = request.POST['STATUS']
-                CARDNO = request.POST['CARDNO']
-                PAYID = request.POST['PAYID']
-                NCERROR = request.POST['NCERROR']
-                BRAND = request.POST['BRAND']
-                SHASIGN = request.POST['SHASIGN']
+                orderID = data['orderID']
+                currency = data['currency']
+                amount = data['amount']
+                PM = data['PM']
+                ACCEPTANCE = data['ACCEPTANCE']
+                STATUS = data['STATUS']
+                CARDNO = data['CARDNO']
+                PAYID = data['PAYID']
+                NCERROR = data['NCERROR']
+                BRAND = data['BRAND']
+                SHASIGN = data['SHASIGN']
             except KeyError:
                 logger.error('IPN: Missing data in %s' % parameters_repr)
-                return http.HttpResponseForbidden('Missing data')
+                raise ValidationError('Missing data')
 
             sha1_source = ''.join((
                 orderID,
@@ -113,14 +118,13 @@ class PostFinanceMoocher(BaseMoocher):
 
             if sha1_out.lower() != SHASIGN.lower():
                 logger.error('IPN: Invalid hash in %s' % parameters_repr)
-                return http.HttpResponseForbidden('Hash did not validate')
+                raise ValidationError('Hash did not validate')
 
             try:
                 instance = self.model.objects.get(pk=orderID.split('-')[0])
             except self.model.DoesNotExist:
                 logger.error('IPN: Instance %s does not exist' % orderID)
-                return http.HttpResponseForbidden(
-                    'Instance %s does not exist' % orderID)
+                raise ValidationError('Instance %s does not exist' % orderID)
 
             if STATUS in ('5', '9'):
                 instance.charged_at = timezone.now()
@@ -131,8 +135,26 @@ class PostFinanceMoocher(BaseMoocher):
 
             post_charge.send(sender=self, payment=instance, request=request)
 
-            return http.HttpResponse('OK')
-
         except Exception as e:
             logger.error('IPN: Processing failure %s' % e)
             raise
+
+    def success_view(self, request):
+        try:
+            self._process_query(request.GET.copy(), request)
+        except ValidationError as exc:
+            for m in exc.messages:
+                messages.error(request, m)
+            return redirect(self.failure_url)
+        else:
+            return redirect(self.success_url)
+
+    @csrf_exempt_m
+    @require_POST_m
+    def postsale_view(self, request):
+        try:
+            self._process_query(request.POST.copy(), request)
+        except ValidationError as exc:
+            return http.HttpResponseForbidden(exc.message)
+
+        return http.HttpResponse('OK')
