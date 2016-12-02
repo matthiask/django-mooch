@@ -3,8 +3,9 @@
 <button type="button" id="stripeButton">{{ moocher.title }}</button>
 
 <script src="https://checkout.stripe.com/checkout.js"></script>
-
 <script>
+(function() {
+
   var handler = StripeCheckout.configure({
     key: '{{ publishable_key }}',
     // image: '/img/documentation/checkout/marketplace.png',
@@ -25,13 +26,15 @@
     }
   });
 
-document.querySelector('.mooch--stripe button').addEventListener('click', function(e) {
-  e.preventDefault();
+  document.querySelector('.mooch--stripe button').addEventListener('click', function(e) {
+    e.preventDefault();
 
-  handler.open({amount: {{ payment.amount_cents }} });
-});
+    handler.open({amount: {{ payment.amount_cents }} });
+  });
 
-window.addEventListener('popstate', function() { handler.close(); });
+  window.addEventListener('popstate', function() { handler.close(); });
+
+})();
 </script>
 
 </div>
