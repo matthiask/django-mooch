@@ -5,6 +5,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Fixed the Stripe JavaScript to work again after the CSS class change
+  in 0.4.
+
 
 `0.4`_ (2016-11-28)
 ~~~~~~~~~~~~~~~~~~~
