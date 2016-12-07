@@ -6,9 +6,9 @@ from django import http
 from django.conf.urls import url
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured, ValidationError
-from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import get_language, to_locale

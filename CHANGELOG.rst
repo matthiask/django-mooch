@@ -7,6 +7,9 @@ Change log
 
 - Fixed the Stripe JavaScript to work again after the CSS class change
   in 0.4.
+- Moved the Stripe handler code into an IIFE (Immediately Invoked Function
+  Expression)
+- Imported ``reverse`` from ``django.urls`` to avoid a deprecation warning.
 
 
 `0.4`_ (2016-11-28)
