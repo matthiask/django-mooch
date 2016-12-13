@@ -10,6 +10,8 @@ Change log
 - Moved the Stripe handler code into an IIFE (Immediately Invoked Function
   Expression)
 - Imported ``reverse`` from ``django.urls`` to avoid a deprecation warning.
+- Send a mail to managers if PostFinance ``success_view`` does not
+  actually succeed.
 
 
 `0.4`_ (2016-11-28)

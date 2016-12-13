@@ -6,6 +6,7 @@ from django import http
 from django.conf.urls import url
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.mail import mail_managers
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -143,6 +144,13 @@ class PostFinanceMoocher(BaseMoocher):
         try:
             self._process_query(request.GET.copy(), request)
         except ValidationError as exc:
+            mail_managers(
+                'Validation error in PostFinance success view',
+                '\n'.join([
+                    request.build_absolute_uri(),
+                    '',
+                ] + [m for m in exc.messages]),
+            )
             for m in exc.messages:
                 messages.error(request, m)
             return redirect(self.failure_url)
