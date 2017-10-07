@@ -1,6 +1,6 @@
-from hashlib import sha1
 import locale
 import logging
+from hashlib import sha1
 
 from django import http
 from django.conf.urls import url
@@ -12,8 +12,9 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.translation import get_language, to_locale
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import (
+    get_language, to_locale, ugettext_lazy as _,
+)
 
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
 from mooch.signals import post_charge

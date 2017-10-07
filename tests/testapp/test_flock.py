@@ -6,8 +6,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.six import assertRegex
 
-
-from flock.models import Project, Donation
+from flock.models import Donation, Project
 
 
 def _messages(response):

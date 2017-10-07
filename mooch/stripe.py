@@ -1,5 +1,3 @@
-import requests
-
 from django import http
 from django.conf.urls import url
 from django.core.exceptions import ImproperlyConfigured
@@ -9,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+import requests
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
 from mooch.signals import post_charge
 

@@ -12,3 +12,4 @@
 /django_mooch.egg-info
 /tests/venv
 .tox
+.coverage
