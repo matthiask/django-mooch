@@ -13,12 +13,12 @@ class BaseMoocher(object):
     model = None
 
     identifier = None
-    title = _('Pay')
+    title = _("Pay")
 
-    success_url = '/'
-    failure_url = '/'
+    success_url = "/"
+    failure_url = "/"
 
-    app_name = 'mooch'
+    app_name = "mooch"
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
