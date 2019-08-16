@@ -13,3 +13,4 @@
 /tests/venv
 .tox
 .coverage
+htmlcov
