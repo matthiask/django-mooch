@@ -70,9 +70,8 @@ class MoochTest(TestCase):
         request = Request()
         response = post_finance_moocher.payment_form(request, payment)
         self.assertTrue(
-            '<input type="hidden" name="PMLIST" ' \
-            'value="PostFinance Card;PostFinance e-finance">'
-            in response
+            '<input type="hidden" name="PMLIST" '
+            'value="PostFinance Card;PostFinance e-finance">' in response
         )
 
         post_finance_moocher.payment_methods = ["PostFinance Card", "TWINT", "PAYPAL"]
