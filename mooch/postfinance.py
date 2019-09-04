@@ -25,7 +25,9 @@ class PostFinanceMoocher(BaseMoocher):
     identifier = "postfinance"
     title = _("Pay with PostFinance")
 
-    def __init__(self, *, pspid, live, sha1_in, sha1_out, **kwargs):
+    def __init__(
+        self, *, pspid, live, sha1_in, sha1_out, payment_methods=None, **kwargs
+    ):
         if any(x is None for x in (pspid, live, sha1_in, sha1_out)):
             raise ImproperlyConfigured(
                 "%s: None is not allowed in (%r, %r, %r, %r)"
@@ -33,6 +35,13 @@ class PostFinanceMoocher(BaseMoocher):
             )
 
         self.pspid = pspid
+        # Which payment options should be shown
+        # Options: PostFinance Card, PostFinance e-finance, TWINT, PAYPAL
+        self.payment_methods = (
+            ["PostFinance Card", "PostFinance e-finance"]
+            if payment_methods is None
+            else payment_methods
+        )
         self.live = live
         self.sha1_in = sha1_in
         self.sha1_out = sha1_out
@@ -83,6 +92,7 @@ class PostFinanceMoocher(BaseMoocher):
                 "payment": payment,
                 "postfinance": postfinance,
                 "mode": "prod" if self.live else "test",
+                "payment_methods": self.payment_methods,
                 "success_url": request.build_absolute_uri(
                     reverse("%s:postfinance_success" % self.app_name)
                 ),

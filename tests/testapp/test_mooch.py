@@ -2,11 +2,17 @@ from hashlib import sha1
 
 from django.test import TestCase
 
+from mooch.postfinance import PostFinanceMoocher
 from testapp.models import Payment
 
 
 def _messages(response):
     return [m.message for m in response.context["messages"]]
+
+
+class Request:
+    def build_absolute_uri(*arg):
+        return ""
 
 
 class MoochTest(TestCase):
@@ -49,6 +55,31 @@ class MoochTest(TestCase):
 
         payment.refresh_from_db()
         self.assertIsNotNone(payment.charged_at)
+
+    def test_postfinance_payment_method(self):
+        post_finance_moocher = PostFinanceMoocher(
+            pspid="fake",
+            live=False,
+            sha1_in="fake",
+            sha1_out="fake",
+            payment_methods=None,
+        )
+
+        payment = Payment.objects.create(amount=100, email="fake@fake.com")
+
+        request = Request()
+        response = post_finance_moocher.payment_form(request, payment)
+        self.assertTrue(
+            '<input type="hidden" name="PMLIST" value="PostFinance Card;PostFinance e-finance">'
+            in response
+        )
+
+        post_finance_moocher.payment_methods = ["PostFinance Card", "TWINT", "PAYPAL"]
+        response = post_finance_moocher.payment_form(request, payment)
+        self.assertTrue(
+            '<input type="hidden" name="PMLIST" value="PostFinance Card;TWINT;PAYPAL">'
+            in response
+        )
 
     def test_banktransfer(self):
         payment = Payment.objects.create(amount=50)
