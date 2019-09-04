@@ -5,6 +5,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+
+`0.5`_ (2019-09-04)
+~~~~~~~~~~~~~~~~~~~
+
 - Fixed the Stripe JavaScript to work again after the CSS class change
   in 0.4.
 - Moved the Stripe handler code into an IIFE (Immediately Invoked Function
@@ -12,6 +16,12 @@ Change log
 - Imported ``reverse`` from ``django.urls`` to avoid a deprecation warning.
 - Send a mail to managers if PostFinance ``success_view`` does not
   actually succeed.
+- Updated the CI matrix to include newer versions of Python and Django,
+  dropped compatibility with Python 2.
+- Reformatted the codebase using black and isort.
+- Made it possible to override the list of payment methods of the
+  PostFinance moocher without replacing the payment form template.
+- Added a test suite.
 
 
 `0.4`_ (2016-11-28)
@@ -62,4 +72,5 @@ Change log
 .. _0.2: https://github.com/matthiask/django-mooch/compare/0.1...0.2
 .. _0.3: https://github.com/matthiask/django-mooch/compare/0.2...0.3
 .. _0.4: https://github.com/matthiask/django-mooch/compare/0.3...0.4
-.. _Next version: https://github.com/matthiask/django-mooch/compare/0.4...master
+.. _0.5: https://github.com/matthiask/django-mooch/compare/0.4...0.5
+.. _Next version: https://github.com/matthiask/django-mooch/compare/0.5...master
