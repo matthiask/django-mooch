@@ -24,6 +24,7 @@ INSTALLED_APPS = [
 MEDIA_ROOT = '/media/'
 STATIC_URL = '/static/'
 BASEDIR = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASEDIR, 'media/')
 STATIC_ROOT = os.path.join(BASEDIR, 'static/')
 SECRET_KEY = 'supersikret'
@@ -31,16 +32,21 @@ LOGIN_REDIRECT_URL = '/?login=1'
 
 ROOT_URLCONF = 'testapp.urls'
 LANGUAGES = (('en', 'English'), ('de', 'German'))
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-)
-MIDDLEWARE_CLASSES = (
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(PROJECT_ROOT,"..", "mooch", "templates")],
+        'APP_DIRS': True,
+        "OPTIONS": {
+            "context_processors": [
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        }
+    }
+]
+
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
