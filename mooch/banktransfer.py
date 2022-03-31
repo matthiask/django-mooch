@@ -1,10 +1,9 @@
 from django import http
-from django.conf.urls import url
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import path, reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from mooch.base import BaseMoocher, require_POST_m
 from mooch.signals import post_charge
@@ -20,8 +19,8 @@ class BankTransferMoocher(BaseMoocher):
 
     def get_urls(self):
         return [
-            url(
-                "^banktransfer_confirm/$",
+            path(
+                "banktransfer_confirm/",
                 self.confirm_view,
                 name="banktransfer_confirm",
             )

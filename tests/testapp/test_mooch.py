@@ -1,9 +1,9 @@
 from hashlib import sha1
 
 from django.test import TestCase
+from testapp.models import Payment
 
 from mooch.postfinance import PostFinanceMoocher
-from testapp.models import Payment
 
 
 def _messages(response):

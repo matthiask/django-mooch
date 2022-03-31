@@ -5,6 +5,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Modernized the package, switched to a declarative setup, dropped Python <
+  3.8, Django < 3.2, added pre-commit, added GitHub actions.
+
 
 `0.5`_ (2019-09-04)
 ~~~~~~~~~~~~~~~~~~~

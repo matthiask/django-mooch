@@ -1,9 +1,9 @@
-from django.conf.urls import include, url
 from django.contrib import admin
+from django.urls import include, path
+from testapp.models import Payment
 
 from mooch.banktransfer import BankTransferMoocher
 from mooch.postfinance import PostFinanceMoocher
-from testapp.models import Payment
 
 
 admin.autodiscover()
@@ -15,8 +15,8 @@ postfinance_moocher = PostFinanceMoocher(
 )
 
 moochers = [
-    url(r"", include(banktransfer_moocher.urls)),
-    url(r"", include(postfinance_moocher.urls)),
+    path("", include(banktransfer_moocher.urls)),
+    path("", include(postfinance_moocher.urls)),
 ]
 
-urlpatterns = [url(r"^admin/", admin.site.urls), url(r"", include((moochers, "mooch")))]
+urlpatterns = [path("admin/", admin.site.urls), path("", include((moochers, "mooch")))]

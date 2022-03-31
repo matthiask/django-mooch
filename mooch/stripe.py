@@ -1,13 +1,12 @@
+import requests
 from django import http
-from django.conf.urls import url
 from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import path, reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
-import requests
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
 from mooch.signals import post_charge
 
@@ -28,7 +27,7 @@ class StripeMoocher(BaseMoocher):
         super().__init__(**kwargs)
 
     def get_urls(self):
-        return [url(r"^stripe_charge/$", self.charge_view, name="stripe_charge")]
+        return [path("stripe_charge/", self.charge_view, name="stripe_charge")]
 
     def payment_form(self, request, payment):
         return render_to_string(

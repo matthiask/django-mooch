@@ -3,16 +3,15 @@ import logging
 from hashlib import sha1
 
 from django import http
-from django.conf.urls import url
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.mail import mail_managers
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import path, reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.translation import get_language, to_locale, ugettext_lazy as _
+from django.utils.translation import get_language, gettext_lazy as _, to_locale
 
 from mooch.base import BaseMoocher, csrf_exempt_m, require_POST_m
 from mooch.signals import post_charge
@@ -49,11 +48,9 @@ class PostFinanceMoocher(BaseMoocher):
 
     def get_urls(self):
         return [
-            url(
-                r"^postfinance_success/$", self.success_view, name="postfinance_success"
-            ),
-            url(
-                r"^postfinance_postsale/$",
+            path("postfinance_success/", self.success_view, name="postfinance_success"),
+            path(
+                "postfinance_postsale/",
                 self.postsale_view,
                 name="postfinance_postsale",
             ),
@@ -63,7 +60,7 @@ class PostFinanceMoocher(BaseMoocher):
         postfinance = {
             # Add a random suffix, because PostFinance does not like
             # processing the same order ID over and over.
-            "orderID": "%s-%s" % (payment.id.hex, get_random_string(4)),
+            "orderID": f"{payment.id.hex}-{get_random_string(4)}",
             "amount": str(payment.amount_cents),
             "currency": "CHF",
             "PSPID": self.pspid,
