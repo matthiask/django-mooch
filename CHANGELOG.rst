@@ -5,12 +5,22 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+.. _Next version: https://github.com/matthiask/django-mooch/compare/0.6...main
+
+
+`0.6`_ (2022-03-31)
+~~~~~~~~~~~~~~~~~~~
+
+.. _0.6: https://github.com/matthiask/django-mooch/compare/0.5...0.6
+
 - Modernized the package, switched to a declarative setup, dropped Python <
   3.8, Django < 3.2, added pre-commit, added GitHub actions.
 
 
 `0.5`_ (2019-09-04)
 ~~~~~~~~~~~~~~~~~~~
+
+.. _0.5: https://github.com/matthiask/django-mooch/compare/0.4...0.5
 
 - Fixed the Stripe JavaScript to work again after the CSS class change
   in 0.4.
@@ -75,5 +85,3 @@ Change log
 .. _0.2: https://github.com/matthiask/django-mooch/compare/0.1...0.2
 .. _0.3: https://github.com/matthiask/django-mooch/compare/0.2...0.3
 .. _0.4: https://github.com/matthiask/django-mooch/compare/0.3...0.4
-.. _0.5: https://github.com/matthiask/django-mooch/compare/0.4...0.5
-.. _Next version: https://github.com/matthiask/django-mooch/compare/0.5...master
